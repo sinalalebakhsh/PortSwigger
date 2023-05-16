@@ -96,8 +96,9 @@ Episode11- YouTube Channel AcronProject:
         |   13-6  Click Payload type = Numers 
         |   13-7  on Paload Options ---> Number range ---> Type = Sequential
         |   13-8  From = 1 
-        |   13-9  To = 50 
-        |   13-10 
+        |   13-9  To   = 50 
+        |   13-10 Step = 1
+        |   13-11 Look at the Length in Relust BurpSuite
 
 
 
