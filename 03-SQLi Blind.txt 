@@ -36,6 +36,9 @@ Blind SQL injection:
     4- Exploiting blind SQL injection using out-of-band (OAST) techniques
         Lab: Blind SQL injection with out-of-band interaction:
             https://portswigger.net/web-security/sql-injection/blind/lab-out-of-band
+        
+        Lab: Blind SQL injection with out-of-band data exfiltration:
+            https://portswigger.net/web-security/sql-injection/blind/lab-out-of-band-data-exfiltration
 
 
     
