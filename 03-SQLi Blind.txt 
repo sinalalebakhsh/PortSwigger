@@ -1,5 +1,14 @@
 Blind SQL injection:
+    Source:  https://portswigger.net/web-security/sql-injection/blind
 
+
+    What is blind SQL injection? 
+        Blind SQL injection arises when an application is vulnerable to SQL injection, 
+        but its HTTP responses do not contain the results of the relevant SQL query or 
+        the details of any database errors. 
+        many techniques such as UNION attacks, are not effective because 
+        they rely on being able 
+        to see the results of the injected query within the application's responses.
     In this section, we'll describe what blind SQL injection is, 
     explain various techniques for finding and exploiting blind SQL injection vulnerabilities. 
 
@@ -8,10 +17,18 @@ Blind SQL injection:
 
     2- Error-based SQL injection:
         2-1- Exploiting blind SQL injection by triggering conditional errors
+            Lab: Blind SQL injection with conditional errors:
+            Link: https://portswigger.net/web-security/sql-injection/blind/lab-conditional-errors
+
         2-2- Extracting sensitive data via verbose SQL error messages
+            Lab: Visible error-based SQL injection:
+            https://portswigger.net/web-security/sql-injection/blind/lab-sql-injection-visible-error-based
     
     3- Exploiting blind SQL injection by triggering time delays
 
 
     4- Exploiting blind SQL injection using out-of-band (OAST) techniques
 
+
+
+    
