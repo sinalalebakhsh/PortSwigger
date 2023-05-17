@@ -1,0 +1,42 @@
+Source:
+    https://portswigger.net/web-security/sql-injection/blind#exploiting-blind-sql-injection-by-triggering-conditional-responses
+    https://portswigger.net/web-security/sql-injection#how-to-prevent-sql-injection
+
+YouTube Links:
+    1- https://www.youtube.com/watch?v=2oeCg8bj-4U
+
+
+
+code is vulnerable:
+    String query = "SELECT * FROM products WHERE category = '"+ input + "'";
+    Statement statement = connection.createStatement();
+    ResultSet resultSet = statement.executeQuery(query);
+
+Secure code:
+    PreparedStatement statement = connection.prepareStatement("SELECT * FROM products WHERE category = ?");
+    statement.setString(1, input);
+    ResultSet resultSet = statement.executeQuery();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
