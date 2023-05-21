@@ -1,3 +1,27 @@
 Source: 
 2- Error-based SQL injection:
        2-1- Exploiting blind SQL injection by triggering conditional errors
+       
+       The preceding technique will not work, because injecting different Boolean conditions
+       makes no difference to the application's responses.
+
+       This involves modifying the query so that it will cause a database error if the condition is true, 
+       but not if the condition is false.
+       این شامل اصلاح پرس و جو می شود تا اگر شرط درست باشد، خطای پایگاه داده ایجاد کند،
+       اما اگر شرط نادرست باشد، خطا ایجاد نمی کند.
+
+
+       Very often, an unhandled error thrown by the database will cause some difference in 
+       the application's response (such as an error message)
+
+       xyz' AND (SELECT CASE WHEN (1=2) THEN 1/0 ELSE 'a' END)='a
+       xyz' AND (SELECT CASE WHEN (1=1) THEN 1/0 ELSE 'a' END)='a
+
+       we can retrieve data in the way already described, 
+       by systematically testing one character at a time: 
+              xyz' AND (SELECT CASE WHEN (Username = 'Administrator' AND SUBSTRING(Password, 1, 1) > 'm') THEN 1/0 ELSE 'a' END FROM Users)='a
+
+
+
+
+
