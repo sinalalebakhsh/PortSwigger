@@ -1,0 +1,25 @@
+Step1: Download Extension "FoxyProxy Standard" than go to "Setting"
+
+Step2: Check IP:Port for BurpSuite and FoxyProxy Extension
+
+Step3: Go to 127.0.0.1:8080 in browser 
+
+Step4: Download it in right side 
+
+Step5: in browser go to Privacy and Security
+
+Step6: Go to Certificates
+
+Step7: Import it 
+
+Step8: Create :
+                Go to "Option" in FoxyProxy 
+
+
+Step9: Turn On FoxyProxy
+
+Step10: in BurpSuite "Intercept" go to On
+
+
+
+

