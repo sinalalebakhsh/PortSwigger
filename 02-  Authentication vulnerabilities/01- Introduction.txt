@@ -1,0 +1,37 @@
+https://portswigger.net/web-security/authentication
+
+
+
+
+What is authentication?
+    is the process of verifying the identity of a given user or client.
+    OR 
+    it involves making sure that they really are who they claim to be.
+
+three authentication factors categorized:
+    1- Something you know ----------------> password / answer to a security question
+    2- Something you have ----------------> physical object mobile / security token
+    3- Something you are or do -----------> your biometrics or patterns of behavior
+
+
+What is the difference between authentication and authorization? تفاوت احراز هویت با مجوز
+    1- Authentication is the process of verifying that a user really is who they claim to be
+    for example login
+    2- authorization involves verifying whether a user is allowed to do something. 
+    for example read a data
+
+
+How do authentication vulnerabilities arise?
+    two ways:
+    1- The authentication mechanisms are weak because they fail to adequately protect against brute-force attacks. 
+    2- Logic flaws or poor coding in the implementation allow the authentication mechanisms to be bypassed entirely by an attacker. This is sometimes referred to as "broken authentication". 
+
+
+
+
+
+
+
+
+
+

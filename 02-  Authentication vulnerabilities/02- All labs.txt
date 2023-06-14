@@ -1,0 +1,19 @@
+https://portswigger.net/web-security/all-labs#authentication
+
+    1-  https://portswigger.net/web-security/authentication/password-based/lab-username-enumeration-via-different-responses
+    2-  https://portswigger.net/web-security/authentication/multi-factor/lab-2fa-simple-bypass
+    3-  https://portswigger.net/web-security/authentication/other-mechanisms/lab-password-reset-broken-logic
+    4-  https://portswigger.net/web-security/authentication/password-based/lab-username-enumeration-via-subtly-different-responses
+    5-  https://portswigger.net/web-security/authentication/password-based/lab-username-enumeration-via-response-timing
+    6-  https://portswigger.net/web-security/authentication/password-based/lab-broken-bruteforce-protection-ip-block
+    7-  https://portswigger.net/web-security/authentication/password-based/lab-username-enumeration-via-account-lock
+    8-  https://portswigger.net/web-security/authentication/multi-factor/lab-2fa-broken-logic
+    9-  https://portswigger.net/web-security/authentication/other-mechanisms/lab-brute-forcing-a-stay-logged-in-cookie
+    10- https://portswigger.net/web-security/authentication/other-mechanisms/lab-offline-password-cracking
+    11- https://portswigger.net/web-security/authentication/other-mechanisms/lab-password-reset-poisoning-via-middleware
+    12- https://portswigger.net/web-security/authentication/other-mechanisms/lab-password-brute-force-via-password-change
+    13- https://portswigger.net/web-security/authentication/password-based/lab-broken-brute-force-protection-multiple-credentials-per-request
+    14- https://portswigger.net/web-security/authentication/multi-factor/lab-2fa-bypass-using-a-brute-force-attack
+
+
+

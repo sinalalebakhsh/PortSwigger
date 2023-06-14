@@ -1,0 +1,24 @@
+https://portswigger.net/web-security/all-labs#sql-injection
+
+Solved     1-  https://portswigger.net/web-security/sql-injection/lab-retrieve-hidden-data 
+Solved     2-  https://portswigger.net/web-security/sql-injection/lab-login-bypass   
+Solved     3-  https://portswigger.net/web-security/sql-injection/union-attacks/lab-determine-number-of-columns
+Solved     4-  https://portswigger.net/web-security/sql-injection/union-attacks/lab-find-column-containing-text
+Solved     5-  https://portswigger.net/web-security/sql-injection/union-attacks/lab-retrieve-data-from-other-tables
+Solved     6-  https://portswigger.net/web-security/sql-injection/union-attacks/lab-retrieve-multiple-values-in-single-column
+Solved     7-  https://portswigger.net/web-security/sql-injection/examining-the-database/lab-querying-database-version-oracle
+Solved     8-  https://portswigger.net/web-security/sql-injection/examining-the-database/lab-querying-database-version-mysql-microsoft
+Solved     9-  https://portswigger.net/web-security/sql-injection/examining-the-database/lab-listing-database-contents-non-oracle
+Solved     10- https://portswigger.net/web-security/sql-injection/examining-the-database/lab-listing-database-contents-oracle
+Solved     11- https://portswigger.net/web-security/sql-injection/blind/lab-conditional-responses
+Solved     12- https://portswigger.net/web-security/sql-injection/blind/lab-conditional-errors
+Solved     13- https://portswigger.net/web-security/sql-injection/blind/lab-sql-injection-visible-error-based
+solved     14- https://portswigger.net/web-security/sql-injection/blind/lab-time-delays
+Not solved 15- https://portswigger.net/web-security/sql-injection/blind/lab-time-delays-info-retrieval
+Not solved 16- https://portswigger.net/web-security/sql-injection/blind/lab-out-of-band
+Not solved 17- https://portswigger.net/web-security/sql-injection/blind/lab-out-of-band-data-exfiltration
+    solved 18- https://portswigger.net/web-security/sql-injection/lab-sql-injection-with-filter-bypass-via-xml-encoding
+
+
+
+

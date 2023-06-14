@@ -1,0 +1,31 @@
+
+Source: https://portswigger.net/web-security/sql-injection/blind
+
+Exploiting blind SQL injection using out-of-band (OAST) techniques:
+
+the application's response doesn't depend on whether the query returns any data, 
+or on whether a database error occurs, 
+or on the time taken to execute the query. 
+it is often possible to exploit the blind SQL injection vulnerability 
+by triggering out-of-band network interactions to a system that you control.
+
+A variety of network protocols can be used for this purpose, 
+but typically the most effective is DNS (domain name service). 
+This is because very many production networks allow free egress of DNS queries, 
+because they are essential for the normal operation of production systems. 
+
+Burp Collaborator:
+    The easiest and most reliable way to use out-of-band techniques is using Burp Collaborator. 
+    https://portswigger.net/burp/documentation/collaborator
+
+
+Lab: Blind SQL injection with out-of-band interaction
+https://portswigger.net/web-security/sql-injection/blind/lab-out-of-band
+
+
+
+
+Lab: Blind SQL injection with out-of-band data exfiltration
+https://portswigger.net/web-security/sql-injection/blind/lab-out-of-band-data-exfiltration
+
+
