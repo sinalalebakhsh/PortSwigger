@@ -4,10 +4,47 @@ Lab: SQL injection with filter bypass via XML encoding
 https://portswigger.net/web-security/sql-injection/lab-sql-injection-with-filter-bypass-via-xml-encoding
 
 
+Information:
+    1- The results from the query are returned in the application's response, 
+       so you can use a UNION attack to retrieve data from other tables.
+    2- The database contains a users table.
+    3- which contains the usernames and passwords of registered users.
+    4- 
+
+Target: 
+    1- perform a SQL injection attack to retrieve the admin user's credentials
+    2- Login to user account
 
 
+Step 1: Burp + FoxyProxy
 
+Step 2: Click on a Product
 
+Step 3: HTTP History > Get Packet
+
+Step 4: Send to Repeater
+
+Step 5: Click on Check stock
+
+Step 6: Check xml input
+
+Step 7: Send into Repeater
+
+** Detect Union Attack:
+
+Step 8: write un stored xml: UNION SELECT NULL
+
+Step 9: Go to Extender > BApp Store > Search for HACKVERTOR > Click on Install
+
+Step 10: Highlight Step 8 than, right Click Extensions > Hackvertor > Encode > hex_entities  
+
+Step 11: Add another NULL to query
+
+Step 12: Get two columns into one : 1 UNION SELECT username || '=' || password FROM users  
+
+Reslut: response have usernames and passwords.
+
+Step 13: 
 
 
 
