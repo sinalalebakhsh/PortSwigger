@@ -27,6 +27,16 @@ How do authentication vulnerabilities arise?
     2- Logic flaws or poor coding in the implementation allow the authentication mechanisms to be bypassed entirely by an attacker. This is sometimes referred to as "broken authentication". 
 
 
+What is the impact of vulnerable authentication?
+    * access to all the data and functionality that the compromised Victim account has.
+    * If they are able to compromise a high-privileged account, such as a system administrator, 
+      they could take full control over the entire application and potentially gain access to internal infrastructure. 
+
+
+Vulnerabilities in authentication mechanisms
+    * Vulnerabilities in password-based login 
+    * Vulnerabilities in multi-factor authentication 
+    * Vulnerabilities in other authentication mechanisms 
 
 
 
