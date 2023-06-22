@@ -1,0 +1,95 @@
+Step 1: Visit this link , and download and extract the file:
+    https://bit.ly/Burpsuite_professional
+    |    if the file in zip:
+    |        sudo chmod +x Burpsuite\ Professional.rar-....-001.zip
+    |    And unzip:
+    |        unzip Burpsuite_professional.rar-....-001.zip
+    
+    
+    |    IF rar not installed:
+    |        sudo apt install rar    
+    |       sudo apt install unrar
+
+
+Step 2: write in Terminal:
+    sudo chmod +x Burpsuite\ Professional.rar
+
+Step 3: write in Terminal:
+    unrar x Burpsuite\ Professional.rar 
+
+step 4:
+    Go in directory Burpsuite Professional/
+    Command:
+        cd Burpsuite\ Professional
+
+step 5:
+    sudo apt update
+
+step 6:
+    sudo apt-get install -y lib6-x32
+
+step 7:
+    Install openjdk version 17:
+        sudo apt-get install openjdk-17-jdk
+
+step 8:
+    To verify the java version is 17:
+        java --version
+
+step 9:
+    9-1 Read this file --> Readme.txt
+    9-2 Copy this:
+        /usr/lib/jvm/java-1.17.0-openjdk-amd64/bin/java --illegal-access=permit -Dfile.encoding=utf-8 -javaagent:burploader.jar -noverify -jar burpsuite_pro_v2022.2.4.jar
+    9-3 Paste in Terminal in current directory:
+        /usr/lib/jvm/java-1.17.0-openjdk-amd64/bin/java --illegal-access=permit -Dfile.encoding=utf-8 -javaagent:burploader.jar -noverify -jar burpsuite_pro_v2022.2.4.jar
+
+step 10:
+    Open new Terminal => Ctrl + Shift + T 
+
+step 11:
+    In this Terminal:
+        Go to same folder Burpsuite --> Download/Burpsuite Professional/
+
+step 12:
+    write this Command:
+        java -jar burploader.jar
+
+step 13:
+    Close the Terminal
+
+step 14:
+    Change License Text like this:
+        licensed to AcronProject
+    
+step 15:
+    Copy License
+
+step 16:
+    Paste in window tap:
+        Enter License Key
+
+step 17:
+    Click on Manual activation
+
+step 18:
+    Click on Copy request
+
+step 19:
+    Paste on Activation Request
+
+step 20:
+    Copy Activation Response
+
+step 21:
+    Paste on Paste response 
+
+    Finally --> Click  Next 
+
+
+step 22:
+    for any time you want run Burpsuite, You have to write this in current directory Burpsuite:
+        /usr/lib/jvm/java-1.17.0-openjdk-amd64/bin/java --illegal-access=permit -Dfile.encoding=utf-8 -javaagent:burploader.jar -noverify -jar burpsuite_pro_v2022.2.4.jar
+
+
+			
+
