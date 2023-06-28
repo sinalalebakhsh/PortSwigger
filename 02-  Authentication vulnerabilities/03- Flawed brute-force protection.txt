@@ -1,0 +1,51 @@
+Link:  https://portswigger.net/web-security/authentication/password-based#flawed-brute-force-protection
+
+    Flawed brute-force protection:
+    محافظت ناقص بروت فورس
+
+    The two most common ways of preventing brute-force attacks are:
+    * Locking the account that the remote user is trying to access 
+      if they make too many failed login attempts
+    * Blocking the remote user's IP address if they make too many 
+      login attempts in quick succession
+    Result:
+    Both approaches offer varying degrees of protection, 
+    but neither is invulnerable, especially if implemented using flawed logic. 
+
+you can reset the counter for the number of failed login attempts 
+by logging in to your own account before this limit is reached.
+
+method:
+
+    Packet-Number   counter-Blocker   user and pass 
+    ------------    ---------------   -----------------
+         1              0             valid user + pass 
+         2              1             victim user + pass1?
+         3              0             valid user + pass 
+         4              1             victim user + pass2?
+         5              0             valid user + pass 
+
+
+Step1: Burp + Foxy 
+
+Step2: Create a pitchfork attack + payload positions -> username and password parameters.
+
+Step3: Resource pool tab -> Maximum concurrent requests = 1
+
+Step4: Payloads tab ->  payload 1 -> 
+    Your username is first and that carlos is repeated at least 100 times. 
+
+Step5:  یک در میون! ارسال میکنیم
+
+    Packet1 = True
+    Packet2 = ?
+    Packet3 = True
+    Packet4 = ?
+    .
+    .
+    .
+    .
+
+
+
+
