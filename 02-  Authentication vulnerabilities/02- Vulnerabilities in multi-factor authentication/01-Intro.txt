@@ -1,0 +1,15 @@
+https://portswigger.net/web-security/authentication/multi-factor
+
+Vulnerabilities in multi-factor authentication
+
+    For this reason, two-factor authentication is demonstrably more secure than 
+    single-factor authentication. 
+    it is only ever as secure as its implementation. 
+
+Two-factor authentication tokens
+
+    something you have:
+    * such as the RSA token. pushing github
+    * websites > mobile app > such as Google Authenticator
+    * some websites send verification codes to a user's mobile phone as a text message. 
+

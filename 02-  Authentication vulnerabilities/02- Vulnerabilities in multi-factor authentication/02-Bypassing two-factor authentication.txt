@@ -1,0 +1,14 @@
+https://portswigger.net/web-security/authentication/multi-factor#bypassing-two-factor-authentication
+
+
+
+
+
+
+
+
+
+
+
+
+

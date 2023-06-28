@@ -1,0 +1,37 @@
+https://portswigger.net/web-security/authentication/password-based#Account%20locking
+
+Step1- Burp + Foxy
+
+Step2- investigate Login Page
+
+Step3- attack type > Cluster bomb
+
+Step4- §invalid-username§ +  §§ 
+
+Step5- Payload tap > list user name
+
+Step6- Payload tap > Null payloads type + option generate 5 payload
+
+Step7- Start attack
+
+    Result > different error message:
+        "You have made too many incorrect login attempts."
+    username = am
+
+Step8- new Intruder + Sniper
+
+Step9- valid user you got it + payload for password
+
+Step10- Start attack
+
+    Result: look at the grep extract column
+    different error
+
+    password = 131313
+
+Step11- Wait for a minute to allow the account lock to reset.
+
+Step12- Login . lab sovled
+
+
+
