@@ -1,3 +1,18 @@
+In Your Browser: FireFox Or Chrome
+Step 1: write 127.0.0.1:8080
+
+Step 2: Download "CA Certificate" 
+
+
+In BurpSuite:
+
+Step 1: 
+
+
+
+
+
+
 Step1: Download Extension "FoxyProxy Standard" than go to "Setting"
 
 Step2: Check IP:Port for BurpSuite and FoxyProxy Extension

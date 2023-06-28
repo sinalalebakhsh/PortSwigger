@@ -1,10 +1,10 @@
 Step 1: Visit this link , and download and extract the file:
-    https://bit.ly/Burpsuite_professional
-    |    if the file in zip:
-    |        sudo chmod +x Burpsuite\ Professional.rar-....-001.zip
-    |    And unzip:
-    |        unzip Burpsuite_professional.rar-....-001.zip
-    
+https://bit.ly/Burpsuite_professional
+
+if the file in zip:
+    sudo chmod +x Burpsuite\ Professional.rar
+And unzip:
+    unzip Burpsuite_professional.rar-....-001.zip
     
     |    IF rar not installed:
     |        sudo apt install rar    
@@ -40,8 +40,8 @@ step 9:
     9-1 Read this file --> Readme.txt
     9-2 Copy this:
         /usr/lib/jvm/java-1.17.0-openjdk-amd64/bin/java --illegal-access=permit -Dfile.encoding=utf-8 -javaagent:burploader.jar -noverify -jar burpsuite_pro_v2022.2.4.jar
+
     9-3 Paste in Terminal in current directory:
-        /usr/lib/jvm/java-1.17.0-openjdk-amd64/bin/java --illegal-access=permit -Dfile.encoding=utf-8 -javaagent:burploader.jar -noverify -jar burpsuite_pro_v2022.2.4.jar
 
 step 10:
     Open new Terminal => Ctrl + Shift + T 
@@ -55,7 +55,6 @@ step 12:
         java -jar burploader.jar
 
 step 13:
-    Close the Terminal
 
 step 14:
     Change License Text like this:
