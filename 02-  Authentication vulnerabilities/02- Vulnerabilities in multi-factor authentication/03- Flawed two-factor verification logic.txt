@@ -1,0 +1,57 @@
+https://portswigger.net/web-security/authentication/multi-factor#flawed-two-factor-verification-logic
+
+Flawed two-factor verification logic
+
+
+
+
+
+
+
+
+
+https://portswigger.net/web-security/authentication/multi-factor/lab-2fa-broken-logic
+Lab: 2FA broken logic
+
+
+Step1: Burp + Foxy
+
+Step2: Login with wiener peter
+
+Step3: Get password from Email Lab
+
+Step4: login , at last 
+
+Step6: Open HTTP History
+
+Step7: Find Get request /login2
+
+Step8: Send it to burp repeater
+
+Step9: Change username with carlos
+
+    Result > now temporary code is genarated for carlos
+
+Step10: Log out from wiener 
+
+Step11: Login again with wiener peter
+
+Step12: put invalid password Email
+
+    Result > Incorrect security code 
+
+Step13: find POST request /login2
+
+Step14: clear all payloads
+
+Step15: username = carlos
+
+Step16: highlight sfa-code=§here§
+
+Step17: sniper
+
+Step18: brutforce = 0123456789
+
+startattack = 10.000 request
+
+
