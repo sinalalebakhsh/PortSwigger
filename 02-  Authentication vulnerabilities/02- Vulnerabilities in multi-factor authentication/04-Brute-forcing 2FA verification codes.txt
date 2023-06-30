@@ -1,0 +1,98 @@
+https://portswigger.net/web-security/authentication/multi-factor#brute-forcing-2fa-verification-codes
+
+https://portswigger.net/web-security/authentication/multi-factor/lab-2fa-bypass-using-a-brute-force-attack
+
+Lab: 2FA bypass using a brute-force attack
+
+
+Information:
+1- You have already obtained a valid username and password, 
+2- but do not have access to the user's 2FA verification code.
+
+
+
+Note:
+you may need to repeat this attack several times before you succeed.
+
+
+
+Hint:
+You will need to use Burp macros in conjunction with Burp Intruder to solve this lab.
+
+
+
+Step1: Burp + Foxy
+
+Step2: login with carlos - montoya
+
+Step3: attempt to incorrect password twice
+
+    Result > Backward to login page
+
+Step4: Burp > Project options > Sessions tab > Session Handling Rules > Click Add
+
+Step5: Scope tab > URL Scope > Include all URLs
+
+Step6: Go back to Details > Rule Actions > Click Add > Run a macro
+
+Step7: Select macro > Add > Select three of this > Click OK
+                            GET  /login
+                            POST /login
+                            POST /login2
+
+Step8: Macro Editor > Test macro > GET /login2 > Response > look this:
+
+    Result > Please enter your 4-digit security code
+
+
+Step9: Click OK
+    9-2 Click OK
+    9-3 Click OK
+    9-4 Click OK
+
+Step10: Proxy > HTTP history > POST /login2 > Intruder
+
+Step11: Positions > Clear > mfa-code=$add-here$
+
+Step12: Payloads > Payload type > Numbers
+
+Step13: From 0 to 9999 - Step 1
+
+Step14: Min integers = 4
+        Max integers = 4
+
+Step15: Max fraction digits = 0
+
+Step16: Options > Request Engine > Number of threads = 1
+
+Step17: Start attack
+
+Step18: Select 302 Response Packet 
+        > right click 
+        > Show response browser 
+        >  Copy link
+
+
+Result >  Solve the lab
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
