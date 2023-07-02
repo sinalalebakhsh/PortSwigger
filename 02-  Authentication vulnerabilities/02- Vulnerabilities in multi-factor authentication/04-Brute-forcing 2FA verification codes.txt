@@ -31,14 +31,14 @@ Step3: attempt to incorrect password twice
 
 Step4: Burp > Project options > Sessions tab > Session Handling Rules > Click Add
 
-Step5: Scope tab > URL Scope > Include all URLs
+Step5: Scope tab > URL Scope > Include all URLs 
 
 Step6: Go back to Details > Rule Actions > Click Add > Run a macro
 
 Step7: Select macro > Add > Select three of this > Click OK
-                            GET  /login
+                            GET /login
+                            GET /login2
                             POST /login
-                            POST /login2
 
 Step8: Macro Editor > Test macro > GET /login2 > Response > look this:
 
@@ -52,7 +52,7 @@ Step9: Click OK
 
 Step10: Proxy > HTTP history > POST /login2 > Intruder
 
-Step11: Positions > Clear > mfa-code=$add-here$
+Step11: Positions > Clear > mfa-code=§1234§
 
 Step12: Payloads > Payload type > Numbers
 
@@ -64,6 +64,8 @@ Step14: Min integers = 4
 Step15: Max fraction digits = 0
 
 Step16: Options > Request Engine > Number of threads = 1
+
+Step16: Resource Pool > Create new... > Max... = 1
 
 Step17: Start attack
 
@@ -78,12 +80,18 @@ Result >  Solve the lab
 
 
 
+https://portswigger.net/research/turbo-intruder-embracing-the-billion-request-attack
 
 
 
 
 
 
+HTTP/2 302 Found
+Location: /my-account?id=carlos
+Set-Cookie: session=NhmMY8wRMjGijWKp8ZJ5iXJTvrPii9VX; Secure; HttpOnly; SameSite=None
+X-Frame-Options: SAMEORIGIN
+Content-Length: 0
 
 
 

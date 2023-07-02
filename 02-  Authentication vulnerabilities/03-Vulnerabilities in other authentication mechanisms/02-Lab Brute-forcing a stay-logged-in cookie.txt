@@ -1,0 +1,269 @@
+https://portswigger.net/web-security/authentication/other-mechanisms/lab-brute-forcing-a-stay-logged-in-cookie
+Lab: Brute-forcing a stay-logged-in cookie
+
+Your credentials: wiener:peter
+Victim's username: carlos 
+Candidate passwords:
+       123456
+       password
+       12345678
+       qwerty
+       123456789
+       12345
+       1234
+       111111
+       1234567
+       dragon
+       123123
+       baseball
+       abc123
+       football
+       monkey
+       letmein
+       shadow
+       master
+       666666
+       qwertyuiop
+       123321
+       mustang
+       1234567890
+       michael
+       654321
+       superman
+       1qaz2wsx
+       7777777
+       121212
+       000000
+       qazwsx
+       123qwe
+       killer
+       trustno1
+       jordan
+       jennifer
+       zxcvbnm
+       asdfgh
+       hunter
+       buster
+       soccer
+       harley
+       batman
+       andrew
+       tigger
+       sunshine
+       iloveyou
+       2000
+       charlie
+       robert
+       thomas
+       hockey
+       ranger
+       daniel
+       starwars
+       klaster
+       112233
+       george
+       computer
+       michelle
+       jessica
+       pepper
+       1111
+       zxcvbn
+       555555
+       11111111
+       131313
+       freedom
+       777777
+       pass
+       maggie
+       159753
+       aaaaaa
+       ginger
+       princess
+       joshua
+       cheese
+       amanda
+       summer
+       love
+       ashley
+       nicole
+       chelsea
+       biteme
+       matthew
+       access
+       yankees
+       987654321
+       dallas
+       austin
+       thunder
+       taylor
+       matrix
+       mobilemail
+       mom
+       monitor
+       monitoring
+       montana
+       moon
+       moscow
+
+Step1: Burp + FoxyProxy
+
+Step2: login with "wiener:peter" + Stay logged in 
+        > Notice stay-logged-in cookie. 
+
+Step3: Examine this cookie in the Inspector panel.
+       wiener:51dc30ddc473d43a6011e9ebba6ca770
+
+       Result:
+       you can make an educated guess that this may be a hash of your password.
+       username:password
+
+Step4: Hash your password using MD5.
+       Search in Google: hash MD5 online
+       https://www.md5hashgenerator.com/
+
+      MD5(peter) = 51dc30ddc473d43a6011e9ebba6ca770
+      
+Result of web application => d2llbmVyOjUxZGMzMGRkYzQ3M2Q0M2E2MDExZTllYmJhNmNhNzcw
+
+My recon:
+       base64(wiener:51dc30ddc473d43a6011e9ebba6ca770) =>  d2llbmVyOjUxZGMzMGRkYzQ3M2Q0M2E2MDExZTllYmJhNmNhNzcw
+
+Result > confirm that this is the case.
+       > base64(username+':'+md5HashOfPassword)
+
+Step5: Log out of your account. 
+
+Step6: > recent (GET /my-account) Packet 
+       > highlight the stay-logged-in cookie parameter 
+       > Send to Burp Intruder
+
+       Result >
+       the stay-logged-in cookie has been automatically added as a payload position.  
+
+Step7: Add your own password as a single payload.
+
+Step8: > Under Payload processing
+       > add the following rules in order
+       
+       Result >
+       will be applied sequentially 
+       to each payload before the request is submitted.
+       Hash: MD5
+       Add prefix: wiener:
+       Encode: Base64-encode
+
+* As the Update email button 
+  is only displayed when you access the /my-account page
+
+* use the presence or absence of this button 
+  to determine whether we've successfully brute-forced the cookie.
+
+Step9: > Settings tab 
+       > add a grep match rule to flag any responses containing the string Update email.
+       
+Step10: Start attack
+
+    Result > Notice that the generated payload was used to successfully load your own account page.
+           > confirms that the payload processing rules work as expected
+           > you were able to construct a valid cookie for your own account.
+        
+Step11: Remove your own password from the payload list
+
+Step12: add the list of candidate passwords instead.
+
+Step13: Change the Add prefix rule to add carlos: instead of wiener:
+
+Step14: Start attack
+
+        Result > When the attack is finished the lab will be solved.
+    
+
+* Notice that only one request returned a response containing Update email.
+* The payload from this request is the valid stay-logged-in cookie for Carlos's account. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    

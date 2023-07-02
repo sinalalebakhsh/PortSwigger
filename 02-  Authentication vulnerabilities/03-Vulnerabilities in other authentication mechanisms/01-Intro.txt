@@ -1,0 +1,47 @@
+https://portswigger.net/web-security/authentication/other-mechanisms
+
+Vulnerabilities in other authentication mechanisms:
+
+    * change their password or reset their password when they forget it
+      where an attacker is able to create their own account 
+      and, consequently, has easy access to study these additional pages. 
+
+Keeping users logged in
+
+    * stay logged in even after closing a browser session
+      a simple checkbox labeled something like 
+      "Remember me" or "Keep me logged in"
+      often implemented by generating a "remember me" token + stored in a persistent cookie.
+
+    some websites generate this cookie based on:
+     * a predictable concatenation of static values, such as the username and a timestamp.
+         پیوستگی قابل پیش بینی
+
+     * use the password as part of the cookie.
+       Result = This approach is dangerous = attacker > username=mynameisx password=abcdefg123123&% + base64 or another way MD5 etc
+
+     * the cookie is encrypted in some way it will not be guessable
+       - Base64 offers no protection whatsoever.
+       - encryption with a one-way hash function is not completely bulletproof. 
+       Result =  if a similar limit isn't applied to cookie guesses. => dont limit Brute Force 
+       This lab:
+            Lab: Brute-forcing a stay-logged-in cookie:
+            https://portswigger.net/web-security/authentication/other-mechanisms/lab-brute-forcing-a-stay-logged-in-cookie
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
