@@ -1,0 +1,5 @@
+https://portswigger.net/web-security/dom-based
+
+What is the DOM?
+
+The Document Object Model (DOM) is a web browser's hierarchical representation of the elements on the page.
