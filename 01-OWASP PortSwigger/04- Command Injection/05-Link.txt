@@ -1,1 +1,14 @@
-https://www.techtarget.com/searchwindowsserver/definition/remote-code-execution-RCE
+
+
+
+Remote code execution attack vulnerabilities
+
+allows an attacker to execute arbitrary 
+operating system (OS) commands on the server 
+that is running an application, 
+and typically fully compromise the application and all its data.
+
+Impact: 
+    Executing arbitrary commands
+
+
