@@ -1,2 +1,14 @@
 {
-}
+    "workbench.colorTheme": "Bearded Theme Vivid Black",
+    "files.autoSave": "afterDelay",
+    "workbench.colorCustomizations": {
+      "editor.selectionBackground": "#003aff"
+    },
+    "editor.tokenColorCustomizations": {
+      "comments": "#ff00aa"
+    },
+    // Default source language for translation.
+    "translation.source-language": "auto",
+    // Default target language for translation.
+    "translation.target-language": "fa"
+  }
