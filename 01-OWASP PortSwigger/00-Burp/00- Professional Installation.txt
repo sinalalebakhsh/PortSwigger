@@ -5,6 +5,7 @@ if the file in zip:
     sudo chmod +x Burpsuite\ Professional.rar
 And unzip:
     unzip Burpsuite_professional.rar-....-001.zip
+    https://drive.google.com/file/d/1XnrnmPLFUYiSx4nFxZxBNwAIlMkhXjHG/view
     
     |    IF rar not installed:
     |        sudo apt install rar    
